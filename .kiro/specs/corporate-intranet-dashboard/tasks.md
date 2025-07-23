@@ -78,14 +78,13 @@
 
 - [x] 10. Implementar componente Sidebar
 
-
   - Crear estructura base del Sidebar
   - Implementar layout responsive para barra lateral
   - Configurar contenedores para módulos internos
   - Escribir tests para estructura del Sidebar
   - _Requerimientos: 1.1, 1.2_
 
-- [ ] 11. Desarrollar QuickLinks
+- [x] 11. Desarrollar QuickLinks
 
   - Implementar módulo de enlaces rápidos
   - Crear agrupación por categorías con headers
@@ -94,7 +93,8 @@
   - Escribir tests para QuickLinks
   - _Requerimientos: 7.1, 7.2, 7.3, 7.4_
 
-- [ ] 12. Crear SpacesList
+- [x] 12. Crear SpacesList
+
 
   - Implementar lista de espacios de colaboración
   - Desarrollar indicadores de actividad

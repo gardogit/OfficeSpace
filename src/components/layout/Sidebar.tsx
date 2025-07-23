@@ -1,5 +1,7 @@
 import React from 'react';
 import { QuickLink, Space, Application } from '../../types';
+import { QuickLinks } from '../dashboard/QuickLinks';
+import { SpacesList } from '../dashboard/SpacesList';
 
 interface SidebarProps {
   quickLinks: QuickLink[];
@@ -30,24 +32,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       role="complementary"
       aria-label="Barra lateral con información adicional"
     >
-      {/* Placeholder para QuickLinks */}
+      {/* QuickLinks Module */}
       <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Enlaces Rápidos
         </h2>
-        <div className="text-sm text-gray-500">
-          {quickLinks.length} enlaces disponibles
-        </div>
+        <QuickLinks links={quickLinks} />
       </div>
 
-      {/* Placeholder para SpacesList */}
+      {/* SpacesList Module */}
       <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Espacios de Colaboración
         </h2>
-        <div className="text-sm text-gray-500">
-          {spaces.length} espacios disponibles
-        </div>
+        <SpacesList spaces={spaces} />
       </div>
 
       {/* Placeholder para LaunchPad */}

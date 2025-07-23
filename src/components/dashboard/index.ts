@@ -11,3 +11,6 @@ export { default as EmployeeCard } from './EmployeeCard';
 export type { EmployeeCardProps } from './EmployeeCard';
 export { default as EmployeeModal } from './EmployeeModal';
 export type { EmployeeModalProps } from './EmployeeModal';
+export { default as QuickLinks } from './QuickLinks';
+export type { QuickLinksProps } from './QuickLinks';
+export { default as QuickLinksDemo } from './QuickLinksDemo';
