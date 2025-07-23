@@ -42,14 +42,14 @@
 
 - [x] 6. Crear NavigationBar principal
 
-
   - Implementar navegación horizontal con secciones
   - Desarrollar indicador visual de sección activa
   - Manejar estado de navegación entre secciones
   - Escribir tests para navegación
   - _Requerimientos: 3.1, 3.2, 3.3_
 
-- [ ] 7. Implementar NewsCarousel
+- [x] 7. Implementar NewsCarousel
+
 
   - Crear componente carousel con navegación manual
   - Implementar rotación automática de artículos

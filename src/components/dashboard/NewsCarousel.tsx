@@ -1,0 +1,222 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import { NewsArticle } from '../../types';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
+
+export interface NewsCarouselProps {
+  news: NewsArticle[];
+  autoRotate?: boolean;
+  autoRotateInterval?: number;
+  className?: string;
+}
+
+export const NewsCarousel: React.FC<NewsCarouselProps> = ({
+  news,
+  autoRotate = true,
+  autoRotateInterval = 5000,
+  className = ''
+}) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Simulate loading state
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (news && news.length > 0) {
+        setIsLoading(false);
+      } else if (news && news.length === 0) {
+        setError('No hay noticias disponibles');
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [news]);
+
+  // Auto-rotation logic
+  useEffect(() => {
+    if (!autoRotate || isLoading || error || !news || news.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
+    }, autoRotateInterval);
+
+    return () => clearInterval(interval);
+  }, [autoRotate, autoRotateInterval, news?.length, isLoading, error]);
+
+  const goToSlide = useCallback((index: number) => {
+    setCurrentIndex(index);
+  }, []);
+
+  const goToPrevious = useCallback(() => {
+    if (!news || news.length === 0) return;
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? news.length - 1 : prevIndex - 1
+    );
+  }, [news?.length]);
+
+  const goToNext = useCallback(() => {
+    if (!news || news.length === 0) return;
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
+  }, [news?.length]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <Card className={`${className} animate-pulse`}>
+        <div className="space-y-4">
+          <div className="h-48 bg-gray-200 rounded-lg"></div>
+          <div className="space-y-2">
+            <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            <div className="h-4 bg-gray-200 rounded w-full"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <Card className={`${className} text-center py-8`}>
+        <div className="text-gray-500">
+          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
+          </svg>
+          <p className="text-lg font-medium text-gray-900 mb-2">Error al cargar noticias</p>
+          <p className="text-gray-600">{error}</p>
+        </div>
+      </Card>
+    );
+  }
+
+  // Empty state
+  if (!news || news.length === 0) {
+    return (
+      <Card className={`${className} text-center py-8`}>
+        <div className="text-gray-500">
+          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+          <p className="text-lg font-medium text-gray-900 mb-2">No hay noticias disponibles</p>
+          <p className="text-gray-600">Vuelve más tarde para ver las últimas actualizaciones</p>
+        </div>
+      </Card>
+    );
+  }
+
+  const currentArticle = news[currentIndex];
+
+  return (
+    <Card className={`${className} relative overflow-hidden`}>
+      {/* Main content */}
+      <div className="space-y-4">
+        {/* Article image */}
+        {currentArticle.imageUrl && (
+          <div className="relative h-48 rounded-lg overflow-hidden bg-gray-100">
+            <img
+              src={currentArticle.imageUrl}
+              alt={currentArticle.title}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            {/* Category badge */}
+            <div className="absolute top-3 left-3">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                {currentArticle.category}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Article content */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-sm text-gray-500">
+            <span>Por {currentArticle.author}</span>
+            <span>{formatDate(currentArticle.publishDate)}</span>
+          </div>
+          
+          <h2 className="text-xl font-bold text-gray-900 leading-tight">
+            {currentArticle.title}
+          </h2>
+          
+          <p className="text-gray-600 leading-relaxed">
+            {currentArticle.summary}
+          </p>
+        </div>
+
+        {/* Navigation controls */}
+        {news.length > 1 && (
+          <div className="flex items-center justify-between pt-4">
+            {/* Previous/Next buttons */}
+            <div className="flex space-x-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={goToPrevious}
+                className="p-2"
+                aria-label="Artículo anterior"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </Button>
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={goToNext}
+                className="p-2"
+                aria-label="Siguiente artículo"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Button>
+            </div>
+
+            {/* Position indicators */}
+            <div className="flex space-x-1">
+              {news.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                    index === currentIndex
+                      ? 'bg-primary-600'
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Ir al artículo ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Article counter */}
+            <div className="text-sm text-gray-500">
+              {currentIndex + 1} de {news.length}
+            </div>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+};
+
+export default NewsCarousel;
