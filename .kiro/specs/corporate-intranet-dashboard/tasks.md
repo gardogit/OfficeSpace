@@ -33,7 +33,6 @@
 
 - [x] 5. Desarrollar componente Header
 
-
   - Implementar estructura del Header con logo, búsqueda y controles
   - Crear componente SearchBar funcional
   - Desarrollar UserControls con dropdown de perfil
@@ -41,7 +40,8 @@
   - Escribir tests para funcionalidad del Header
   - _Requerimientos: 2.1, 2.2, 2.3_
 
-- [ ] 6. Crear NavigationBar principal
+- [x] 6. Crear NavigationBar principal
+
 
   - Implementar navegación horizontal con secciones
   - Desarrollar indicador visual de sección activa

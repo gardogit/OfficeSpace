@@ -1,5 +1,6 @@
 import { Card, Button, Avatar } from './components/ui';
-import { MainLayout, GridContainer, Header } from './components/layout';
+import { MainLayout, GridContainer, Header, NavigationBar } from './components/layout';
+import { useNavigation } from './hooks';
 import mockData from './data/mockData.json';
 import { MockData } from './types';
 
@@ -7,31 +8,14 @@ function App() {
   // Cast mock data to proper type
   const data = mockData as MockData;
 
+  // Navigation state management
+  const { sections, activeSection, handleSectionChange } = useNavigation();
+
   // Handle search functionality
   const handleSearch = (query: string) => {
     console.log('Searching for:', query);
     // Here you would implement actual search logic
   };
-
-  // Mock navigation component
-  const NavigationDemo = () => (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <nav className="flex space-x-8 py-4">
-        <a href="#" className="text-blue-600 font-medium border-b-2 border-blue-600 pb-2">
-          Inicio
-        </a>
-        <a href="#" className="text-gray-500 hover:text-gray-700 pb-2">
-          Noticias
-        </a>
-        <a href="#" className="text-gray-500 hover:text-gray-700 pb-2">
-          Eventos
-        </a>
-        <a href="#" className="text-gray-500 hover:text-gray-700 pb-2">
-          Equipo
-        </a>
-      </nav>
-    </div>
-  );
 
   // Mock sidebar component
   const SidebarDemo = () => (
@@ -68,14 +52,33 @@ function App() {
   return (
     <MainLayout
       header={<Header user={data.currentUser} onSearch={handleSearch} />}
-      navigation={<NavigationDemo />}
+      navigation={
+        <NavigationBar
+          sections={sections}
+          activeSection={activeSection}
+          onSectionChange={handleSectionChange}
+        />
+      }
       sidebar={<SidebarDemo />}
     >
       {/* Main Content Area */}
       <section>
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Header Component Demo
+          NavigationBar Component Demo
         </h2>
+        
+        {/* NavigationBar Demo Info */}
+        <Card title="NavigationBar Component Implementado" className="mb-8">
+          <div className="space-y-4 text-sm text-gray-600">
+            <p>✅ <strong>Navegación horizontal:</strong> Secciones organizadas horizontalmente con scroll en móvil</p>
+            <p>✅ <strong>Indicador visual activo:</strong> Sección activa marcada con color azul y borde inferior</p>
+            <p>✅ <strong>Estado de navegación:</strong> Manejo de estado con hook personalizado useNavigation</p>
+            <p>✅ <strong>Sección actual:</strong> {sections.find(s => s.id === activeSection)?.label}</p>
+            <p>✅ <strong>Accesibilidad:</strong> Soporte para navegación por teclado y ARIA labels</p>
+            <p>✅ <strong>Responsive design:</strong> Scroll horizontal en dispositivos móviles</p>
+            <p>✅ <strong>Transiciones suaves:</strong> Efectos hover y cambios de estado animados</p>
+          </div>
+        </Card>
         
         {/* Header Demo Info */}
         <Card title="Header Component Implementado" className="mb-8">
