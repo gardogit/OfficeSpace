@@ -69,7 +69,6 @@
 
 - [x] 9. Crear NewHiresGrid
 
-
   - Implementar grid responsive para nuevos empleados
   - Desarrollar EmployeeCard con información básica
   - Crear modal o expansión para detalles adicionales
@@ -77,7 +76,8 @@
   - Escribir tests para grid de empleados
   - _Requerimientos: 6.1, 6.2, 6.3, 6.4_
 
-- [ ] 10. Implementar componente Sidebar
+- [x] 10. Implementar componente Sidebar
+
 
   - Crear estructura base del Sidebar
   - Implementar layout responsive para barra lateral

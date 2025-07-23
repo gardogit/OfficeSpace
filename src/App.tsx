@@ -1,5 +1,5 @@
 import { Card, Button, Avatar } from './components/ui';
-import { MainLayout, GridContainer, Header, NavigationBar } from './components/layout';
+import { MainLayout, GridContainer, Header, NavigationBar, Sidebar } from './components/layout';
 import { useNavigation } from './hooks';
 import mockData from './data/mockData.json';
 import { MockData } from './types';
@@ -17,37 +17,7 @@ function App() {
     // Here you would implement actual search logic
   };
 
-  // Mock sidebar component
-  const SidebarDemo = () => (
-    <div className="space-y-6">
-      <Card title="Enlaces Rápidos">
-        <div className="space-y-2">
-          <a href="#" className="block text-sm text-blue-600 hover:text-blue-800">
-            Portal de Empleados
-          </a>
-          <a href="#" className="block text-sm text-blue-600 hover:text-blue-800">
-            Sistema de Tickets
-          </a>
-          <a href="#" className="block text-sm text-blue-600 hover:text-blue-800">
-            Directorio Corporativo
-          </a>
-        </div>
-      </Card>
-      
-      <Card title="Espacios de Colaboración">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">Proyecto Alpha</span>
-            <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700">Equipo Marketing</span>
-            <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
+
 
   return (
     <MainLayout
@@ -59,7 +29,13 @@ function App() {
           onSectionChange={handleSectionChange}
         />
       }
-      sidebar={<SidebarDemo />}
+      sidebar={
+        <Sidebar
+          quickLinks={data.quickLinks}
+          spaces={data.spaces}
+          applications={data.applications}
+        />
+      }
     >
       {/* Main Content Area */}
       <section>
