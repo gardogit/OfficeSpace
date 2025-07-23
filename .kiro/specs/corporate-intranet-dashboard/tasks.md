@@ -50,7 +50,6 @@
 
 - [x] 7. Implementar NewsCarousel
 
-
   - Crear componente carousel con navegación manual
   - Implementar rotación automática de artículos
   - Desarrollar indicadores de posición
@@ -59,7 +58,8 @@
   - Escribir tests para funcionalidad del carousel
   - _Requerimientos: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 8. Desarrollar UpcomingEventsList
+- [x] 8. Desarrollar UpcomingEventsList
+
 
   - Implementar lista de eventos con ordenamiento cronológico
   - Crear formato de fecha y hora consistente
