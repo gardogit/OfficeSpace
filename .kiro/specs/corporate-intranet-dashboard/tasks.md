@@ -60,7 +60,6 @@
 
 - [x] 8. Desarrollar UpcomingEventsList
 
-
   - Implementar lista de eventos con ordenamiento cronológico
   - Crear formato de fecha y hora consistente
   - Desarrollar expansión de detalles de eventos
@@ -68,7 +67,8 @@
   - Escribir tests para lista de eventos
   - _Requerimientos: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 9. Crear NewHiresGrid
+- [x] 9. Crear NewHiresGrid
+
 
   - Implementar grid responsive para nuevos empleados
   - Desarrollar EmployeeCard con información básica
