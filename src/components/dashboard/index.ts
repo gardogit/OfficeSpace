@@ -17,3 +17,5 @@ export { default as QuickLinksDemo } from './QuickLinksDemo';
 export { default as LaunchPad } from './LaunchPad';
 export type { LaunchPadProps } from './LaunchPad';
 export { default as LaunchPadDemo } from './LaunchPadDemo';
+export { default as SpacesList } from './SpacesList';
+export type { SpacesListProps } from './SpacesList';

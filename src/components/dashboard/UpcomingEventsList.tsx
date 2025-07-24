@@ -6,6 +6,7 @@ import { formatEventDate, formatEventDuration, sortEventsByDate, isEventUpcoming
 export interface UpcomingEventsListProps {
   events: Event[];
   className?: string;
+  showTitle?: boolean;
 }
 
 interface EventItemProps {
@@ -99,7 +100,8 @@ const EventItem: React.FC<EventItemProps> = ({ event, isExpanded, onToggleExpand
 
 export const UpcomingEventsList: React.FC<UpcomingEventsListProps> = ({ 
   events, 
-  className = '' 
+  className = '',
+  showTitle = true
 }) => {
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
 
@@ -115,7 +117,7 @@ export const UpcomingEventsList: React.FC<UpcomingEventsListProps> = ({
 
   if (upcomingEvents.length === 0) {
     return (
-      <Card title="Próximos Eventos" className={className}>
+      <Card title={showTitle ? "Próximos Eventos" : undefined} className={className}>
         <div className="text-center py-8">
           <div className="text-gray-400 text-4xl mb-3">📅</div>
           <p className="text-gray-500 text-sm">
@@ -127,7 +129,7 @@ export const UpcomingEventsList: React.FC<UpcomingEventsListProps> = ({
   }
 
   return (
-    <Card title="Próximos Eventos" className={className}>
+    <Card title={showTitle ? "Próximos Eventos" : undefined} className={className}>
       <div className="space-y-0">
         {upcomingEvents.map((event) => (
           <EventItem
