@@ -5,13 +5,33 @@ import {
   UpcomingEventsList, 
   NewHiresGrid 
 } from './components/dashboard';
-import { useNavigation } from './hooks';
+import { 
+  ErrorBoundary, 
+  DashboardErrorBoundary,
+  CriticalErrorBoundary,
+  HeaderSkeleton,
+  NewsCarouselSkeleton,
+  EventsListSkeleton,
+  EmployeeGridSkeleton,
+  DashboardSkeleton,
+  DashboardComponentWrapper,
+  EnhancedErrorBoundary
+} from './components/common';
+import { useNavigation, useMockDataLoader } from './hooks';
 import mockData from './data/mockData.json';
 import { MockData } from './types';
+import { sanitizePartialMockData, getDataHealthStatus } from './utils/dataValidation';
+import { ErrorMetrics } from './utils/errorRecovery';
 
 function App() {
-  // Cast mock data to proper type
-  const data = mockData as MockData;
+  // Load and validate mock data with loading states
+  const { data: rawData, isLoading: isDataLoading, error: dataError, retry: retryDataLoad } = useMockDataLoader(mockData, 800);
+  
+  // Sanitize data to ensure it's valid with partial recovery
+  const data = rawData ? sanitizePartialMockData(rawData) : null;
+  
+  // Get data health status for monitoring
+  const dataHealth = data ? getDataHealthStatus(data) : null;
 
   // Navigation state management
   const { sections, activeSection, handleSectionChange } = useNavigation();
@@ -29,6 +49,8 @@ function App() {
 
   // Filter content based on active section and search query
   const getFilteredContent = () => {
+    if (!data) return { news: [], events: [], newHires: [] };
+    
     let news = data.news;
     let events = data.events;
     let newHires = data.newHires;
@@ -79,6 +101,51 @@ function App() {
 
   const { news: filteredNews, events: filteredEvents, newHires: filteredNewHires } = getFilteredContent();
 
+  // Show loading state while data is loading
+  if (isDataLoading) {
+    return <DashboardSkeleton />;
+  }
+
+  // Show error state if data loading failed
+  if (dataError || !data) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white rounded-lg border border-red-200 shadow-sm p-6">
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <svg
+                className="w-16 h-16 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+            </div>
+            <h2 className="text-xl font-semibold text-red-900 mb-2">
+              Error al cargar el dashboard
+            </h2>
+            <p className="text-sm text-red-700 mb-6">
+              {dataError?.message || 'No se pudieron cargar los datos del dashboard. Por favor, intenta nuevamente.'}
+            </p>
+            <button
+              onClick={retryDataLoad}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Reintentar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Render content based on active section
   const renderSectionContent = () => {
     switch (activeSection) {
@@ -88,10 +155,15 @@ function App() {
             <h2 id="news-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Noticias de la Empresa
             </h2>
-            <NewsCarousel 
-              news={filteredNews} 
-              autoRotate={!searchQuery}
-            />
+            <EnhancedErrorBoundary 
+              componentName="Noticias"
+              onError={(error) => ErrorMetrics.getInstance().recordError('NewsCarousel', error)}
+            >
+              <NewsCarousel 
+                news={filteredNews} 
+                autoRotate={!searchQuery}
+              />
+            </EnhancedErrorBoundary>
           </section>
         );
 
@@ -101,7 +173,12 @@ function App() {
             <h2 id="events-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Próximos Eventos
             </h2>
-            <UpcomingEventsList events={filteredEvents} showTitle={false} />
+            <EnhancedErrorBoundary 
+              componentName="Eventos"
+              onError={(error) => ErrorMetrics.getInstance().recordError('UpcomingEventsList', error)}
+            >
+              <UpcomingEventsList events={filteredEvents} showTitle={false} />
+            </EnhancedErrorBoundary>
           </section>
         );
 
@@ -111,7 +188,12 @@ function App() {
             <h2 id="team-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Nuevos Miembros del Equipo
             </h2>
-            <NewHiresGrid newHires={filteredNewHires} />
+            <EnhancedErrorBoundary 
+              componentName="Equipo"
+              onError={(error) => ErrorMetrics.getInstance().recordError('NewHiresGrid', error)}
+            >
+              <NewHiresGrid newHires={filteredNewHires} />
+            </EnhancedErrorBoundary>
           </section>
         );
 
@@ -183,10 +265,15 @@ function App() {
                 <h2 id="news-heading" className="text-2xl font-semibold text-gray-900 mb-6">
                   Noticias Destacadas
                 </h2>
-                <NewsCarousel 
-                  news={filteredNews} 
-                  autoRotate={!searchQuery}
-                />
+                <EnhancedErrorBoundary 
+                  componentName="Noticias"
+                  onError={(error) => ErrorMetrics.getInstance().recordError('NewsCarousel', error)}
+                >
+                  <NewsCarousel 
+                    news={filteredNews} 
+                    autoRotate={!searchQuery}
+                  />
+                </EnhancedErrorBoundary>
               </section>
             )}
 
@@ -198,7 +285,12 @@ function App() {
                   <h2 id="events-heading" className="text-xl font-semibold text-gray-900 mb-4">
                     Próximos Eventos
                   </h2>
-                  <UpcomingEventsList events={filteredEvents} showTitle={false} />
+                  <EnhancedErrorBoundary 
+                    componentName="Eventos"
+                    onError={(error) => ErrorMetrics.getInstance().recordError('UpcomingEventsList', error)}
+                  >
+                    <UpcomingEventsList events={filteredEvents} showTitle={false} />
+                  </EnhancedErrorBoundary>
                 </section>
               )}
 
@@ -208,7 +300,12 @@ function App() {
                   <h2 id="newhires-heading" className="text-xl font-semibold text-gray-900 mb-4">
                     Nuevos Miembros del Equipo
                   </h2>
-                  <NewHiresGrid newHires={filteredNewHires} />
+                  <EnhancedErrorBoundary 
+                    componentName="Equipo"
+                    onError={(error) => ErrorMetrics.getInstance().recordError('NewHiresGrid', error)}
+                  >
+                    <NewHiresGrid newHires={filteredNewHires} />
+                  </EnhancedErrorBoundary>
                 </section>
               )}
             </div>
@@ -218,25 +315,75 @@ function App() {
   };
 
   return (
-    <MainLayout
-      header={<Header user={data.currentUser} onSearch={handleSearch} />}
-      navigation={
-        <NavigationBar
-          sections={sections}
-          activeSection={activeSection}
-          onSectionChange={handleSectionChange}
-        />
-      }
-      sidebar={
-        <Sidebar
-          quickLinks={data.quickLinks}
-          spaces={data.spaces}
-          applications={data.applications}
-        />
-      }
-    >
-      {/* Main Dashboard Content */}
-      <div className="space-y-8">
+    <CriticalErrorBoundary componentName="MainLayout">
+      <MainLayout
+        header={
+          <CriticalErrorBoundary componentName="Header">
+            <Header user={data.currentUser} onSearch={handleSearch} />
+          </CriticalErrorBoundary>
+        }
+        navigation={
+          <EnhancedErrorBoundary 
+            componentName="NavigationBar"
+            onError={(error) => ErrorMetrics.getInstance().recordError('NavigationBar', error)}
+          >
+            <NavigationBar
+              sections={sections}
+              activeSection={activeSection}
+              onSectionChange={handleSectionChange}
+            />
+          </EnhancedErrorBoundary>
+        }
+        sidebar={
+          <EnhancedErrorBoundary 
+            componentName="Sidebar"
+            onError={(error) => ErrorMetrics.getInstance().recordError('Sidebar', error)}
+          >
+            <Sidebar
+              quickLinks={data.quickLinks}
+              spaces={data.spaces}
+              applications={data.applications}
+            />
+          </EnhancedErrorBoundary>
+        }
+      >
+        {/* Data Health Status Warning */}
+        {dataHealth && dataHealth.status !== 'healthy' && (
+          <div className={`mb-6 p-4 rounded-lg border ${
+            dataHealth.status === 'critical' 
+              ? 'bg-red-50 border-red-200 text-red-800' 
+              : 'bg-yellow-50 border-yellow-200 text-yellow-800'
+          }`}>
+            <div className="flex items-center">
+              <svg
+                className={`w-5 h-5 mr-2 ${
+                  dataHealth.status === 'critical' ? 'text-red-400' : 'text-yellow-400'
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+              <div>
+                <h4 className="font-medium">
+                  {dataHealth.status === 'critical' ? 'Problemas críticos detectados' : 'Algunos datos no están disponibles'}
+                </h4>
+                <p className="text-sm mt-1">
+                  {dataHealth.issues.join(', ')}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Main Dashboard Content */}
+        <div className="space-y-8">
         {/* Search Results Indicator */}
         {searchQuery && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -280,7 +427,8 @@ function App() {
           </div>
         )}
       </div>
-    </MainLayout>
+      </MainLayout>
+    </CriticalErrorBoundary>
   );
 }
 

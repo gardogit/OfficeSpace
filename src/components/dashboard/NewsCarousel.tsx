@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NewsArticle } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { useErrorHandler } from '../../hooks/useErrorHandler';
+import { NewsCarouselSkeleton } from '../common/SkeletonLoader';
+import { ErrorFallback } from '../common/ErrorFallback';
 
 export interface NewsCarouselProps {
   news: NewsArticle[];
@@ -18,34 +21,60 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  
+  // Enhanced error handling
+  const errorHandler = useErrorHandler({
+    componentName: 'NewsCarousel',
+    maxRetries: 2,
+    onError: (error, attempt) => {
+      console.error(`NewsCarousel error (attempt ${attempt}):`, error);
+    }
+  });
 
-  // Simulate loading state
+  // Simulate loading state with error handling
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (news && news.length > 0) {
+      try {
+        if (!news) {
+          throw new Error('No se pudieron cargar las noticias');
+        }
+        
+        if (news.length === 0) {
+          // This is not an error, just empty state
+          setIsLoading(false);
+          return;
+        }
+
+        // Validate news data structure
+        const invalidNews = news.find(article => 
+          !article.id || !article.title || !article.author || !article.publishDate
+        );
+        
+        if (invalidNews) {
+          throw new Error('Datos de noticias inválidos');
+        }
+
         setIsLoading(false);
-      } else if (news && news.length === 0) {
-        setError('No hay noticias disponibles');
+        errorHandler.clearError(); // Clear any previous errors
+      } catch (error) {
         setIsLoading(false);
-      } else {
-        setIsLoading(false);
+        errorHandler.handleError(error instanceof Error ? error : new Error('Error desconocido'));
       }
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [news]);
+  }, [news, errorHandler]);
 
   // Auto-rotation logic
   useEffect(() => {
-    if (!autoRotate || isLoading || error || !news || news.length <= 1) return;
+    if (!autoRotate || isLoading || errorHandler.hasError || !news || news.length <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
     }, autoRotateInterval);
 
     return () => clearInterval(interval);
-  }, [autoRotate, autoRotateInterval, news?.length, isLoading, error]);
+  }, [autoRotate, autoRotateInterval, news?.length, isLoading, errorHandler.hasError]);
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
@@ -90,17 +119,13 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
   }
 
   // Error state
-  if (error) {
+  if (errorHandler.hasError) {
     return (
-      <Card className={`${className} text-center py-8`}>
-        <div className="text-gray-500">
-          <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
-          </svg>
-          <p className="text-lg font-medium text-gray-900 mb-2">Error al cargar noticias</p>
-          <p className="text-gray-600">{error}</p>
-        </div>
-      </Card>
+      <ErrorFallback
+        error={errorHandler.error}
+        resetError={errorHandler.clearError}
+        componentName="NewsCarousel"
+      />
     );
   }
 
