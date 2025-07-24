@@ -166,7 +166,7 @@ export const EnhancedErrorBoundary: React.FC<{
     setRetryKey(prev => prev + 1);
   };
 
-  const recovery = getRecoveryStrategy(error, componentName);
+  const recovery = error ? getRecoveryStrategy(error, componentName) : null;
 
   const defaultFallback = (
     <div className="min-h-[200px] flex items-center justify-center bg-red-50 border border-red-200 rounded-lg p-6">

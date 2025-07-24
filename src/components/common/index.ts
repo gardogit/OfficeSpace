@@ -22,3 +22,5 @@ export {
   ShimmerSkeleton
 } from './SkeletonLoader';
 export { WithLoadingState, DashboardComponentWrapper, EnhancedErrorBoundary } from './WithLoadingState';
+export { ErrorHandlingProvider, useErrorContext, useErrorReporting, withErrorReporting } from './ErrorHandlingProvider';
+export { ErrorMonitor, useErrorMonitor } from './ErrorMonitor';
