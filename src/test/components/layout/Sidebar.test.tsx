@@ -93,7 +93,7 @@ describe('Sidebar', () => {
     expect(screen.getByText('Aplicaciones')).toBeInTheDocument();
   });
 
-  it('shows correct counts for each module', () => {
+  it('shows correct content for each module', () => {
     render(
       <Sidebar
         quickLinks={mockQuickLinks}
@@ -102,10 +102,19 @@ describe('Sidebar', () => {
       />
     );
 
-    // Verificar que muestra el número correcto de elementos
-    expect(screen.getByText('2 enlaces disponibles')).toBeInTheDocument();
-    expect(screen.getByText('2 espacios disponibles')).toBeInTheDocument();
-    expect(screen.getByText('3 aplicaciones disponibles')).toBeInTheDocument();
+    // Verificar que muestra el contenido correcto de cada módulo
+    // QuickLinks - debe mostrar los enlaces
+    expect(screen.getByText('Portal de Empleados')).toBeInTheDocument();
+    expect(screen.getByText('Sistema de Tickets')).toBeInTheDocument();
+    
+    // Spaces - debe mostrar los espacios
+    expect(screen.getByText('Proyecto Alpha')).toBeInTheDocument();
+    expect(screen.getByText('Equipo de Marketing')).toBeInTheDocument();
+    
+    // Applications - debe mostrar las aplicaciones en el LaunchPad
+    expect(screen.getByText('Slack')).toBeInTheDocument();
+    expect(screen.getByText('Jira')).toBeInTheDocument();
+    expect(screen.getByText('Confluence')).toBeInTheDocument();
   });
 
   it('has proper accessibility attributes', () => {
@@ -147,9 +156,9 @@ describe('Sidebar', () => {
     );
 
     // Verificar que maneja arrays vacíos correctamente
-    expect(screen.getByText('0 enlaces disponibles')).toBeInTheDocument();
-    expect(screen.getByText('0 espacios disponibles')).toBeInTheDocument();
-    expect(screen.getByText('0 aplicaciones disponibles')).toBeInTheDocument();
+    expect(screen.getByText('No hay enlaces rápidos disponibles')).toBeInTheDocument();
+    expect(screen.getByText('No hay espacios de colaboración disponibles')).toBeInTheDocument();
+    expect(screen.getByText('No hay aplicaciones disponibles')).toBeInTheDocument();
   });
 
   it('has responsive layout classes', () => {

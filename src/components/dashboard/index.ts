@@ -14,3 +14,6 @@ export type { EmployeeModalProps } from './EmployeeModal';
 export { default as QuickLinks } from './QuickLinks';
 export type { QuickLinksProps } from './QuickLinks';
 export { default as QuickLinksDemo } from './QuickLinksDemo';
+export { default as LaunchPad } from './LaunchPad';
+export type { LaunchPadProps } from './LaunchPad';
+export { default as LaunchPadDemo } from './LaunchPadDemo';

@@ -81,7 +81,7 @@ describe('Sidebar Integration with MainLayout', () => {
     expect(sidebar).toHaveClass('w-full', 'space-y-6');
   });
 
-  it('displays correct data counts in sidebar modules', () => {
+  it('displays correct data in sidebar modules', () => {
     render(
       <MainLayout
         sidebar={
@@ -96,9 +96,9 @@ describe('Sidebar Integration with MainLayout', () => {
       </MainLayout>
     );
 
-    // Verificar que muestra los conteos correctos
-    expect(screen.getByText('1 enlaces disponibles')).toBeInTheDocument();
-    expect(screen.getByText('1 espacios disponibles')).toBeInTheDocument();
-    expect(screen.getByText('1 aplicaciones disponibles')).toBeInTheDocument();
+    // Verificar que muestra el contenido correcto en cada módulo
+    expect(screen.getByText('Portal de Empleados')).toBeInTheDocument();
+    expect(screen.getByText('Proyecto Alpha')).toBeInTheDocument();
+    expect(screen.getByText('Slack')).toBeInTheDocument();
   });
 });

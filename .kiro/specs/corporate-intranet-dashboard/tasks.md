@@ -103,7 +103,12 @@
   - Escribir tests para SpacesList
   - _Requerimientos: 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 13. Implementar LaunchPad
+- [x] 13. Implementar LaunchPad
+
+
+
+
+
 
   - Crear cuadrícula 3x3 de aplicaciones
   - Desarrollar iconos y etiquetas para aplicaciones
