@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
-import { getUserFriendlyErrorMessage, getRecoveryStrategy } from '../../utils/errorRecovery';
+import { getUserFriendlyErrorMessage } from '../../utils/errorRecovery';
 
 interface WithLoadingStateProps {
   isLoading: boolean;
@@ -166,7 +166,8 @@ export const EnhancedErrorBoundary: React.FC<{
     setRetryKey(prev => prev + 1);
   };
 
-  const recovery = error ? getRecoveryStrategy(error, componentName) : null;
+  // Recovery strategy would be implemented when we have error state
+  // const recovery = error ? getRecoveryStrategy(error, componentName) : null;
 
   const defaultFallback = (
     <div className="min-h-[200px] flex items-center justify-center bg-red-50 border border-red-200 rounded-lg p-6">
