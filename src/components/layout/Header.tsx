@@ -2,7 +2,8 @@ import React from 'react';
 import { UserProfile } from '../../types';
 import { SearchBar } from './SearchBar';
 import { UserControls } from './UserControls';
-import { IoNotifications, IoHelpCircleOutline } from 'react-icons/io5';
+import { ThemeToggle } from '../ui/ThemeToggle';
+import { IoNotifications } from 'react-icons/io5';
 import { useSkipLinks } from '../../hooks/useAccessibility';
 
 export interface HeaderProps {
@@ -25,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { skipToContent, skipToNavigation } = useSkipLinks();
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm" role="banner">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200" role="banner">
       {/* Skip Links */}
       <div className="sr-only">
         <a 
@@ -66,10 +67,10 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <div className="ml-3 hidden sm:block">
-                <h1 className="heading-3 text-gray-900 group-hover:text-primary-700 transition-colors duration-200">
+                <h1 className="heading-3 text-gray-900 dark:text-gray-100 group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200">
                   Corporate Hub
                 </h1>
-                <p className="caption text-gray-500 -mt-1">
+                <p className="caption text-gray-500 dark:text-gray-400 -mt-1">
                   Dashboard Corporativo
                 </p>
               </div>
@@ -86,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center space-x-4" role="toolbar" aria-label="Controles de usuario">
           {/* Notifications Button */}
           <button 
-            className="relative p-2 text-gray-400 hover:text-gray-600 focus-ring rounded-lg transition-colors duration-200"
+            className="relative p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 focus-ring rounded-lg transition-colors duration-200"
             aria-label="Notificaciones (3 nuevas)"
             aria-describedby="notifications-tooltip"
           >
@@ -99,14 +100,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="sr-only">3 notificaciones nuevas</span>
           </button>
 
-          {/* Help Button */}
-          <button 
-            className="p-2 text-gray-400 hover:text-gray-600 focus-ring rounded-lg transition-colors duration-200"
-            aria-label="Ayuda y soporte"
-            aria-describedby="help-tooltip"
-          >
-            <IoHelpCircleOutline className="w-6 h-6" aria-hidden="true" />
-          </button>
+          {/* Theme Toggle */}
+          <ThemeToggle />
 
           <UserControls user={user} />
         </div>

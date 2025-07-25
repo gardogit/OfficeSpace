@@ -38,20 +38,20 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
             src={employee.avatar}
             name={employee.name}
             size="lg"
-            className="mx-auto group-hover:ring-2 group-hover:ring-primary-200 group-hover:ring-offset-2 transition-all duration-200"
+            className="mx-auto group-hover:ring-2 group-hover:ring-primary-200 dark:group-hover:ring-primary-700 group-hover:ring-offset-2 transition-all duration-200"
             showStatus={true}
             status="online"
           />
         </div>
 
         <div className="space-y-2 text-center">
-          <h3 className="heading-4 text-balance group-hover:text-primary-700 transition-colors duration-200">
+          <h3 className="heading-4 text-balance group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200">
             {employee.name}
           </h3>
-          <p className="body-small text-primary-600 font-medium">
+          <p className="body-small text-primary-600 dark:text-primary-400 font-medium">
             {employee.position}
           </p>
-          <p className="caption text-gray-500">{employee.department}</p>
+          <p className="caption text-gray-500 dark:text-gray-400">{employee.department}</p>
         </div>
 
         <div className="badge badge-secondary">

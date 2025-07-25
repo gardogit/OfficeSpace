@@ -24,17 +24,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   navigation
 }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       {/* Header - Barra superior */}
       {header && (
-        <header className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <header className="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
           {header}
         </header>
       )}
 
       {/* Navigation Bar - Navegación horizontal */}
       {navigation && (
-        <nav className="sticky top-16 z-30 bg-white border-b border-gray-200 shadow-sm">
+        <nav className="sticky top-16 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
           {navigation}
         </nav>
       )}

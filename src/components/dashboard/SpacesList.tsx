@@ -91,14 +91,14 @@ export const SpacesList: React.FC<SpacesListProps> = ({
           <button
             key={space.id}
             onClick={() => handleSpaceClick(space)}
-            className="w-full p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            className="w-full p-3 text-left bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             aria-label={`Acceder al espacio ${space.name}`}
           >
             <div className="flex items-start justify-between gap-3">
               {/* Información principal del espacio */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-sm font-medium text-gray-900 truncate">
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                     {space.name}
                   </h3>
 
@@ -112,11 +112,11 @@ export const SpacesList: React.FC<SpacesListProps> = ({
                   </div>
                 </div>
 
-                <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+                <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 line-clamp-2">
                   {space.description}
                 </p>
 
-                <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                   <span className="flex items-center gap-1">
                     <IoPeopleOutline className="w-3 h-3" aria-hidden="true" />
                     {space.memberCount} miembro
@@ -130,7 +130,7 @@ export const SpacesList: React.FC<SpacesListProps> = ({
               {/* Icono de navegación */}
               <div className="flex-shrink-0 mt-1">
                 <IoChevronForwardOutline
-                  className="w-4 h-4 text-gray-400"
+                  className="w-4 h-4 text-gray-400 dark:text-gray-500"
                   aria-hidden="true"
                 />
               </div>
@@ -141,10 +141,10 @@ export const SpacesList: React.FC<SpacesListProps> = ({
 
       {/* Mensaje cuando no hay espacios */}
       {spaces.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <div className="flex flex-col items-center gap-2">
             <IoPeopleOutline
-              className="w-8 h-8 text-gray-300"
+              className="w-8 h-8 text-gray-300 dark:text-gray-600"
               aria-hidden="true"
             />
             <p className="text-sm">

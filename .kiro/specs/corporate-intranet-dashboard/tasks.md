@@ -139,7 +139,6 @@
 
 - [x] 17. Implementar funcionalidades de accesibilidad
 
-
   - Configurar navegación por teclado completa
   - Implementar etiquetas ARIA apropiadas
   - Verificar contraste de colores WCAG 2.1

@@ -93,8 +93,8 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
                 relative whitespace-nowrap pb-2 px-1 text-sm font-medium transition-colors duration-200
                 focus-ring rounded-sm keyboard-navigation
                 ${isActive
-                  ? 'text-primary-600 border-b-2 border-primary-600'
-                  : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
+                  ? 'text-primary-600 dark:text-primary-400 border-b-2 border-primary-600 dark:border-primary-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-b-2 hover:border-gray-300 dark:hover:border-gray-600'
                 }
               `}
               role="tab"
@@ -108,7 +108,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
               {/* Indicador visual adicional para sección activa */}
               {isActive && (
                 <span 
-                  className="absolute inset-x-0 -bottom-px h-0.5 bg-primary-600"
+                  className="absolute inset-x-0 -bottom-px h-0.5 bg-primary-600 dark:bg-primary-400"
                   aria-hidden="true"
                 />
               )}

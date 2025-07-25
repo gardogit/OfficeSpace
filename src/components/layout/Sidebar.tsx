@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* QuickLinks Module */}
       <Card 
         title="Enlaces Rápidos"
-        className="group hover:border-primary-200 transition-colors duration-200"
+        className="group hover:border-primary-200 dark:hover:border-primary-700 transition-colors duration-200"
       >
         <div className="group-hover:scale-[1.01] transition-transform duration-200">
           <QuickLinks links={quickLinks} />
@@ -47,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* SpacesList Module */}
       <Card 
         title="Espacios de Colaboración"
-        className="group hover:border-success-200 transition-colors duration-200"
+        className="group hover:border-success-200 dark:hover:border-success-700 transition-colors duration-200"
       >
         <div className="group-hover:scale-[1.01] transition-transform duration-200">
           <SpacesList spaces={spaces} />
@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* LaunchPad Module */}
       <Card 
         title="Aplicaciones"
-        className="group hover:border-warning-200 transition-colors duration-200"
+        className="group hover:border-warning-200 dark:hover:border-warning-700 transition-colors duration-200"
       >
         <div className="group-hover:scale-[1.01] transition-transform duration-200">
           <LaunchPad applications={applications} />
@@ -73,10 +73,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </svg>
           </div>
           <div>
-            <h3 className="heading-4 text-primary-900 mb-2">
+            <h3 className="heading-4 text-primary-900 dark:text-primary-200 mb-2">
               ¿Necesitas ayuda?
             </h3>
-            <p className="body-small text-primary-700 mb-4">
+            <p className="body-small text-primary-700 dark:text-primary-300 mb-4">
               Contacta al equipo de soporte para asistencia técnica
             </p>
             <button className="btn btn-primary btn-sm">

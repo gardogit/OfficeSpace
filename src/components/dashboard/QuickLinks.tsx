@@ -68,11 +68,11 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
       {Object.entries(groupedLinks).map(([category, categoryLinks], index) => (
         <div key={category} className="animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
           {/* Header de categoría */}
-          <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-100">
-            <div className="text-primary-600">
+          <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-100 dark:border-gray-700">
+            <div className="text-primary-600 dark:text-primary-400">
               {getCategoryIcon(category)}
             </div>
-            <h3 className="heading-4 text-gray-700 uppercase tracking-wide">
+            <h3 className="heading-4 text-gray-700 dark:text-gray-300 uppercase tracking-wide">
               {category}
             </h3>
           </div>
@@ -83,7 +83,7 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.url)}
-                className="w-full flex items-center gap-3 p-3 text-left body-small text-gray-600 hover:text-primary-700 hover:bg-primary-50 rounded-lg transition-all duration-200 focus-ring group hover-lift"
+                className="w-full flex items-center gap-3 p-3 text-left body-small text-gray-600 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-all duration-200 focus-ring group hover-lift"
                 aria-label={`Abrir ${link.title} en nueva pestaña`}
                 style={{ animationDelay: `${(index * 100) + (linkIndex * 50)}ms` }}
               >
@@ -99,13 +99,13 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
                 )}
                 
                 {/* Título del enlace */}
-                <span className="flex-1 truncate font-medium group-hover:text-primary-800">
+                <span className="flex-1 truncate font-medium group-hover:text-primary-800 dark:group-hover:text-primary-300">
                   {link.title}
                 </span>
                 
                 {/* Indicador de enlace externo */}
                 <svg
-                  className="w-4 h-4 text-gray-400 flex-shrink-0 group-hover:text-primary-500 group-hover:translate-x-0.5 transition-all duration-200"
+                  className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0 group-hover:text-primary-500 dark:group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all duration-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -127,12 +127,12 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
       {/* Mensaje cuando no hay enlaces */}
       {links.length === 0 && (
         <div className="text-center py-8">
-          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
           </div>
-          <p className="body-small text-gray-500">No hay enlaces rápidos disponibles</p>
+          <p className="body-small text-gray-500 dark:text-gray-400">No hay enlaces rápidos disponibles</p>
         </div>
       )}
     </div>
