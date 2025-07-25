@@ -4,34 +4,65 @@ export interface CardProps {
   title?: string;
   children: React.ReactNode;
   className?: string;
-  variant?: 'default' | 'compact' | 'highlighted';
+  variant?: 'default' | 'compact' | 'highlighted' | 'elevated';
+  interactive?: boolean;
+  onClick?: () => void;
 }
 
 export const Card: React.FC<CardProps> = ({ 
   title, 
   children, 
   className = '', 
-  variant = 'default' 
+  variant = 'default',
+  interactive = false,
+  onClick
 }) => {
-  const baseClasses = 'bg-white rounded-lg border border-gray-200 transition-shadow duration-200';
+  const baseClasses = 'bg-white rounded-lg border transition-all duration-250 ease-out';
   
   const variantClasses = {
-    default: 'p-6 shadow-sm hover:shadow-md',
-    compact: 'p-4 shadow-sm hover:shadow-md',
-    highlighted: 'p-6 shadow-md hover:shadow-lg border-primary-200 bg-primary-50'
+    default: 'card-default',
+    compact: 'card-compact',
+    highlighted: 'card-highlighted',
+    elevated: 'card-elevated'
   };
 
-  const cardClasses = `${baseClasses} ${variantClasses[variant]} ${className}`;
+  const interactiveClasses = interactive || onClick ? 'cursor-pointer hover-lift focus-ring' : '';
+  
+  const cardClasses = `${baseClasses} ${variantClasses[variant]} ${interactiveClasses} ${className}`;
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
+  const CardComponent = onClick ? 'button' : 'div';
 
   return (
-    <div className={cardClasses}>
+    <CardComponent 
+      className={cardClasses}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={onClick ? 0 : undefined}
+      role={onClick ? 'button' : undefined}
+      aria-label={onClick && title ? `Abrir ${title}` : undefined}
+    >
       {title && (
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="heading-4 mb-4 text-balance">
           {title}
         </h3>
       )}
-      {children}
-    </div>
+      <div className="animate-fade-in">
+        {children}
+      </div>
+    </CardComponent>
   );
 };
 
