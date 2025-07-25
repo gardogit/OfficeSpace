@@ -35,7 +35,7 @@ export const useErrorHandler = (options: ErrorHandlerOptions) => {
     canRetry: true
   });
 
-  const retryTimeoutRef = useRef<NodeJS.Timeout>();
+  const retryTimeoutRef = useRef<number>();
   const errorMetrics = ErrorMetrics.getInstance();
 
   const handleError = useCallback((error: Error) => {
@@ -195,8 +195,8 @@ export const useAsyncErrorHandler = <T>(
     data,
     isLoading,
     execute,
-    retry: retryExecution,
-    ...errorHandler
+    ...errorHandler,
+    retry: retryExecution
   };
 };
 
