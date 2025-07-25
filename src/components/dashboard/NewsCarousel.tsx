@@ -3,7 +3,7 @@ import { NewsArticle } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useErrorHandler } from '../../hooks/useErrorHandler';
-import { NewsCarouselSkeleton } from '../common/SkeletonLoader';
+
 import { ErrorFallback } from '../common/ErrorFallback';
 
 export interface NewsCarouselProps {
@@ -122,7 +122,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
   if (errorHandler.hasError) {
     return (
       <ErrorFallback
-        error={errorHandler.error}
+        error={errorHandler.error || undefined}
         resetError={errorHandler.clearError}
         componentName="NewsCarousel"
       />
@@ -152,11 +152,11 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
       <div className="space-y-4">
         {/* Article image */}
         {currentArticle.imageUrl && (
-          <div className="relative h-48 rounded-lg overflow-hidden bg-gray-100">
+          <div className="relative h-48 rounded-lg overflow-hidden bg-gray-100 group">
             <img
               src={currentArticle.imageUrl}
               alt={currentArticle.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
@@ -164,68 +164,86 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             />
             {/* Category badge */}
             <div className="absolute top-3 left-3">
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+              <span className="badge badge-primary shadow-sm">
                 {currentArticle.category}
               </span>
             </div>
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
         )}
 
         {/* Article content */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between text-sm text-gray-500">
-            <span>Por {currentArticle.author}</span>
-            <span>{formatDate(currentArticle.publishDate)}</span>
+        <div className="content-spacing">
+          <div className="flex items-center justify-between caption">
+            <span className="flex items-center space-x-2">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span>Por {currentArticle.author}</span>
+            </span>
+            <span className="flex items-center space-x-2">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>{formatDate(currentArticle.publishDate)}</span>
+            </span>
           </div>
           
-          <h2 className="text-xl font-bold text-gray-900 leading-tight">
+          <h2 className="heading-2 text-balance hover:text-primary-700 transition-colors duration-200 cursor-pointer">
             {currentArticle.title}
           </h2>
           
-          <p className="text-gray-600 leading-relaxed">
+          <p className="body-base text-gray-600">
             {currentArticle.summary}
           </p>
         </div>
 
         {/* Navigation controls */}
         {news.length > 1 && (
-          <div className="flex items-center justify-between pt-4">
+          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             {/* Previous/Next buttons */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goToPrevious}
-                className="p-2"
+                className="p-2 hover-lift"
                 aria-label="Artículo anterior"
+                icon={
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                }
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                Anterior
               </Button>
               
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goToNext}
-                className="p-2"
+                className="p-2 hover-lift"
                 aria-label="Siguiente artículo"
+                icon={
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                }
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                Siguiente
               </Button>
             </div>
 
             {/* Position indicators */}
-            <div className="flex space-x-1">
+            <div className="flex space-x-2">
               {news.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                  className={`w-3 h-3 rounded-full transition-all duration-200 hover-lift ${
                     index === currentIndex
-                      ? 'bg-primary-600'
+                      ? 'bg-primary-600 scale-110'
                       : 'bg-gray-300 hover:bg-gray-400'
                   }`}
                   aria-label={`Ir al artículo ${index + 1}`}
@@ -234,8 +252,11 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             </div>
 
             {/* Article counter */}
-            <div className="text-sm text-gray-500">
-              {currentIndex + 1} de {news.length}
+            <div className="caption flex items-center space-x-2">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <span>{currentIndex + 1} de {news.length}</span>
             </div>
           </div>
         )}
