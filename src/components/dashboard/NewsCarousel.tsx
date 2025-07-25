@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { NewsArticle } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useErrorHandler } from '../../hooks/useErrorHandler';
+import { useAnnouncements, useKeyboardNavigation } from '../../hooks/useAccessibility';
+import { KEYS } from '../../utils/accessibility';
 
 import { ErrorFallback } from '../common/ErrorFallback';
 
@@ -21,6 +23,9 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const { announce } = useAnnouncements();
   
   // Enhanced error handling
   const errorHandler = useErrorHandler({
@@ -65,32 +70,85 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
     return () => clearTimeout(timer);
   }, [news, errorHandler]);
 
-  // Auto-rotation logic
+  // Auto-rotation logic with pause support
   useEffect(() => {
-    if (!autoRotate || isLoading || errorHandler.hasError || !news || news.length <= 1) return;
+    if (!autoRotate || isLoading || errorHandler.hasError || !news || news.length <= 1 || isPaused) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
+      setCurrentIndex((prevIndex) => {
+        const newIndex = (prevIndex + 1) % news.length;
+        const article = news[newIndex];
+        if (article) {
+          announce(`Artículo ${newIndex + 1} de ${news.length}: ${article.title}`, 'polite');
+        }
+        return newIndex;
+      });
     }, autoRotateInterval);
 
     return () => clearInterval(interval);
-  }, [autoRotate, autoRotateInterval, news?.length, isLoading, errorHandler.hasError]);
+  }, [autoRotate, autoRotateInterval, news?.length, isLoading, errorHandler.hasError, isPaused, announce]);
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
-  }, []);
+    const article = news?.[index];
+    if (article) {
+      announce(`Navegando al artículo ${index + 1}: ${article.title}`, 'polite');
+    }
+  }, [news, announce]);
 
   const goToPrevious = useCallback(() => {
     if (!news || news.length === 0) return;
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? news.length - 1 : prevIndex - 1
-    );
-  }, [news?.length]);
+    setCurrentIndex((prevIndex) => {
+      const newIndex = prevIndex === 0 ? news.length - 1 : prevIndex - 1;
+      const article = news[newIndex];
+      if (article) {
+        announce(`Artículo anterior: ${article.title}`, 'polite');
+      }
+      return newIndex;
+    });
+  }, [news, announce]);
 
   const goToNext = useCallback(() => {
     if (!news || news.length === 0) return;
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % news.length);
-  }, [news?.length]);
+    setCurrentIndex((prevIndex) => {
+      const newIndex = (prevIndex + 1) % news.length;
+      const article = news[newIndex];
+      if (article) {
+        announce(`Siguiente artículo: ${article.title}`, 'polite');
+      }
+      return newIndex;
+    });
+  }, [news, announce]);
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (!news || news.length <= 1) return;
+
+    switch (event.key) {
+      case KEYS.ARROW_LEFT:
+        event.preventDefault();
+        goToPrevious();
+        break;
+      case KEYS.ARROW_RIGHT:
+        event.preventDefault();
+        goToNext();
+        break;
+      case KEYS.SPACE:
+        event.preventDefault();
+        setIsPaused(prev => !prev);
+        announce(isPaused ? 'Carrusel reanudado' : 'Carrusel pausado', 'polite');
+        break;
+    }
+  }, [news, goToPrevious, goToNext, isPaused, announce]);
+
+  // Add keyboard event listener
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    carousel.addEventListener('keydown', handleKeyDown);
+    return () => carousel.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -147,15 +205,34 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
   const currentArticle = news[currentIndex];
 
   return (
-    <Card className={`${className} relative overflow-hidden`}>
-      {/* Main content */}
-      <div className="space-y-4">
+    <div 
+      className={`${className} relative overflow-hidden`}
+      role="region"
+      aria-label="Carrusel de noticias"
+      aria-live="polite"
+      aria-atomic="false"
+    >
+      <Card className="h-full">
+      <div 
+        ref={carouselRef}
+        className="space-y-4"
+        tabIndex={0}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+      >
+        {/* Screen reader instructions */}
+        <div className="sr-only">
+          Carrusel de noticias. Usa las flechas izquierda y derecha para navegar. 
+          Presiona espacio para pausar o reanudar la rotación automática.
+        </div>
         {/* Article image */}
         {currentArticle.imageUrl && (
           <div className="relative h-48 rounded-lg overflow-hidden bg-gray-100 group">
             <img
               src={currentArticle.imageUrl}
-              alt={currentArticle.title}
+              alt={`Imagen del artículo: ${currentArticle.title}`}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -164,12 +241,12 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             />
             {/* Category badge */}
             <div className="absolute top-3 left-3">
-              <span className="badge badge-primary shadow-sm">
-                {currentArticle.category}
+              <span className="badge badge-primary shadow-sm" role="text">
+                Categoría: {currentArticle.category}
               </span>
             </div>
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
           </div>
         )}
 
@@ -190,7 +267,10 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             </span>
           </div>
           
-          <h2 className="heading-2 text-balance hover:text-primary-700 transition-colors duration-200 cursor-pointer">
+          <h2 
+            className="heading-2 text-balance hover:text-primary-700 transition-colors duration-200 cursor-pointer"
+            id={`article-title-${currentIndex}`}
+          >
             {currentArticle.title}
           </h2>
           
@@ -203,16 +283,16 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
         {news.length > 1 && (
           <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             {/* Previous/Next buttons */}
-            <div className="flex space-x-1">
+            <div className="flex space-x-1" role="group" aria-label="Controles de navegación del carrusel">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goToPrevious}
                 className="p-2 hover-lift"
-                aria-label="Artículo anterior"
+                aria-label={`Ir al artículo anterior (${currentIndex === 0 ? news.length : currentIndex} de ${news.length})`}
                 iconPosition="left"
                 icon={
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 }
@@ -225,30 +305,59 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
                 size="sm"
                 onClick={goToNext}
                 className="p-2 hover-lift"
-                aria-label="Siguiente artículo"
+                aria-label={`Ir al siguiente artículo (${currentIndex + 2 > news.length ? 1 : currentIndex + 2} de ${news.length})`}
                 iconPosition="right"
                 icon={
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 }
               >
                 Siguiente
               </Button>
+
+              {/* Pause/Play button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setIsPaused(!isPaused);
+                  announce(isPaused ? 'Carrusel reanudado' : 'Carrusel pausado', 'polite');
+                }}
+                className="p-2 hover-lift"
+                aria-label={isPaused ? 'Reanudar rotación automática' : 'Pausar rotación automática'}
+                icon={
+                  isPaused ? (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6l5-3-5-3z" />
+                    </svg>
+                  )
+                }
+              >
+                {isPaused ? 'Reanudar' : 'Pausar'}
+              </Button>
             </div>
 
             {/* Position indicators */}
-            <div className="flex space-x-2">
-              {news.map((_, index) => (
+            <div className="flex space-x-2" role="tablist" aria-label="Indicadores de posición del carrusel">
+              {news.map((article, index) => (
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-200 hover-lift ${
+                  className={`w-3 h-3 rounded-full transition-all duration-200 hover-lift focus-ring ${
                     index === currentIndex
                       ? 'bg-primary-600 scale-110'
                       : 'bg-gray-300 hover:bg-gray-400'
                   }`}
-                  aria-label={`Ir al artículo ${index + 1}`}
+                  role="tab"
+                  aria-selected={index === currentIndex}
+                  aria-controls={`article-${index}`}
+                  aria-label={`Ir al artículo ${index + 1}: ${article.title}`}
+                  tabIndex={index === currentIndex ? 0 : -1}
                 />
               ))}
             </div>
@@ -263,7 +372,8 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
           </div>
         )}
       </div>
-    </Card>
+      </Card>
+    </div>
   );
 };
 

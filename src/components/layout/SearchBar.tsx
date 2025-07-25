@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
+import { useAnnouncements } from '../../hooks/useAccessibility';
 
 export interface SearchBarProps {
   onSearch?: (query: string) => void;
@@ -18,11 +19,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Buscar en el portal..."
 }) => {
   const [query, setQuery] = useState('');
+  const searchId = useId();
+  const { announce } = useAnnouncements();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch && query.trim()) {
       onSearch(query.trim());
+      announce(`Buscando: ${query.trim()}`, 'polite');
     }
   };
 
@@ -37,7 +41,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative">
+    <form onSubmit={handleSubmit} className="relative" role="search" aria-label="Búsqueda en el portal">
       <div className="relative">
         {/* Search Icon */}
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -47,6 +51,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -59,27 +64,41 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
         {/* Search Input */}
         <input
-          type="text"
+          id={searchId}
+          type="search"
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus-ring sm:text-sm"
           placeholder={placeholder}
+          aria-label="Campo de búsqueda"
+          aria-describedby={`${searchId}-help`}
+          autoComplete="off"
         />
+
+        {/* Hidden help text for screen readers */}
+        <div id={`${searchId}-help`} className="sr-only">
+          Escribe tu consulta y presiona Enter para buscar, o usa el botón de limpiar para borrar el texto
+        </div>
 
         {/* Clear Button */}
         {query && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
             <button
               type="button"
-              onClick={() => setQuery('')}
-              className="text-gray-400 hover:text-gray-600 focus:outline-none"
+              onClick={() => {
+                setQuery('');
+                announce('Campo de búsqueda limpiado', 'polite');
+              }}
+              className="text-gray-400 hover:text-gray-600 focus-ring rounded p-1"
+              aria-label="Limpiar búsqueda"
             >
               <svg
                 className="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

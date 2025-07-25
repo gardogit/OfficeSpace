@@ -137,7 +137,8 @@
   - Verificar consistencia visual en toda la aplicación
   - _Requerimientos: 11.1, 11.2, 11.4_
 
-- [ ] 17. Implementar funcionalidades de accesibilidad
+- [x] 17. Implementar funcionalidades de accesibilidad
+
 
   - Configurar navegación por teclado completa
   - Implementar etiquetas ARIA apropiadas

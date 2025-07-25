@@ -8,6 +8,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-expanded'?: boolean;
+  'aria-haspopup'?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -19,6 +23,10 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   icon,
   iconPosition = 'left',
+  'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedBy,
+  'aria-expanded': ariaExpanded,
+  'aria-haspopup': ariaHasPopup,
   ...props
 }) => {
   const baseClasses = 'btn focus-ring';
@@ -70,6 +78,10 @@ export const Button: React.FC<ButtonProps> = ({
       className={buttonClasses}
       disabled={isDisabled}
       aria-disabled={isDisabled}
+      aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
+      aria-expanded={ariaExpanded}
+      aria-haspopup={ariaHasPopup}
       {...props}
     >
       {loading && <LoadingSpinner />}

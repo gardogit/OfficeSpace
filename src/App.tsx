@@ -144,7 +144,7 @@ function App() {
     switch (activeSection) {
       case 'noticias':
         return (
-          <section aria-labelledby="news-heading">
+          <section aria-labelledby="news-heading" id="tabpanel-noticias" role="tabpanel" aria-labelledby="tab-noticias">
             <h2 id="news-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Noticias de la Empresa
             </h2>
@@ -162,7 +162,7 @@ function App() {
 
       case 'eventos':
         return (
-          <section aria-labelledby="events-heading">
+          <section aria-labelledby="events-heading" id="tabpanel-eventos" role="tabpanel" aria-labelledby="tab-eventos">
             <h2 id="events-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Próximos Eventos
             </h2>
@@ -177,7 +177,7 @@ function App() {
 
       case 'equipo':
         return (
-          <section aria-labelledby="team-heading">
+          <section aria-labelledby="team-heading" id="tabpanel-equipo" role="tabpanel" aria-labelledby="tab-equipo">
             <h2 id="team-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Nuevos Miembros del Equipo
             </h2>
@@ -192,7 +192,7 @@ function App() {
 
       case 'recursos':
         return (
-          <section aria-labelledby="resources-heading">
+          <section aria-labelledby="resources-heading" id="tabpanel-recursos" role="tabpanel" aria-labelledby="tab-recursos">
             <h2 id="resources-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Recursos y Enlaces
             </h2>
@@ -220,7 +220,7 @@ function App() {
 
       case 'espacios':
         return (
-          <section aria-labelledby="spaces-heading">
+          <section aria-labelledby="spaces-heading" id="tabpanel-espacios" role="tabpanel" aria-labelledby="tab-espacios">
             <h2 id="spaces-heading" className="text-2xl font-semibold text-gray-900 mb-6">
               Espacios de Colaboración
             </h2>
@@ -251,7 +251,7 @@ function App() {
       case 'inicio':
       default:
         return (
-          <>
+          <div id="tabpanel-inicio" role="tabpanel" aria-labelledby="tab-inicio">
             {/* News Carousel Section */}
             {filteredNews.length > 0 && (
               <section aria-labelledby="news-heading">
@@ -302,7 +302,7 @@ function App() {
                 </section>
               )}
             </div>
-          </>
+          </div>
         );
     }
   };
@@ -376,7 +376,7 @@ function App() {
         )}
 
         {/* Main Dashboard Content */}
-        <div className="space-y-8">
+        <main id="main-content" className="space-y-8" role="main" aria-label="Contenido principal del dashboard">
         {/* Search Results Indicator */}
         {searchQuery && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -394,7 +394,7 @@ function App() {
 
         {/* No Results Message */}
         {searchQuery && filteredNews.length === 0 && filteredEvents.length === 0 && filteredNewHires.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-4">
               <svg
                 className="w-16 h-16 text-gray-300"
@@ -419,7 +419,7 @@ function App() {
             </div>
           </div>
         )}
-      </div>
+      </main>
       </MainLayout>
     </CriticalErrorBoundary>
   );

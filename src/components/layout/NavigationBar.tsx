@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import { useKeyboardNavigation, useRovingTabIndex } from '../../hooks/useAccessibility';
+import { KEYS } from '../../utils/accessibility';
 
 export interface NavigationSection {
   id: string;
@@ -35,38 +37,50 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
 
   // Usar estado interno si no se proporciona activeSection controlado
   const currentActiveSection = activeSection || internalActiveSection;
+  const activeIndex = sections.findIndex(section => section.id === currentActiveSection);
 
-  const handleSectionClick = (sectionId: string, event: React.MouseEvent) => {
-    event.preventDefault();
-    
-    // Actualizar estado interno
+  // Keyboard navigation
+  const { containerRef } = useKeyboardNavigation(sections, {
+    orientation: 'horizontal',
+    onActivate: (index) => {
+      const section = sections[index];
+      if (section) {
+        handleSectionActivation(section.id);
+      }
+    }
+  });
+
+  // Roving tabindex for better keyboard navigation
+  const { getTabIndex, getAriaSelected } = useRovingTabIndex(sections, activeIndex);
+
+  const handleSectionActivation = useCallback((sectionId: string) => {
     setInternalActiveSection(sectionId);
-    
-    // Llamar callback si se proporciona
     if (onSectionChange) {
       onSectionChange(sectionId);
     }
+  }, [onSectionChange]);
+
+  const handleSectionClick = (sectionId: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    handleSectionActivation(sectionId);
   };
 
   const handleKeyDown = (sectionId: string, event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === KEYS.ENTER || event.key === KEYS.SPACE) {
       event.preventDefault();
-      setInternalActiveSection(sectionId);
-      
-      if (onSectionChange) {
-        onSectionChange(sectionId);
-      }
+      handleSectionActivation(sectionId);
     }
   };
 
   return (
-    <div className={`px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`px-4 sm:px-6 lg:px-8 ${className}`} id="main-navigation">
       <nav 
-        className="flex space-x-8 py-4 overflow-x-auto"
-        role="navigation"
-        aria-label="Navegación principal"
+        ref={containerRef}
+        className="flex space-x-8 py-4 overflow-x-auto scrollbar-thin"
+        role="tablist"
+        aria-label="Navegación principal del dashboard"
       >
-        {sections.map((section) => {
+        {sections.map((section, index) => {
           const isActive = currentActiveSection === section.id;
           
           return (
@@ -77,23 +91,24 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
               onKeyDown={(e) => handleKeyDown(section.id, e)}
               className={`
                 relative whitespace-nowrap pb-2 px-1 text-sm font-medium transition-colors duration-200
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-sm
+                focus-ring rounded-sm keyboard-navigation
                 ${isActive
-                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  ? 'text-primary-600 border-b-2 border-primary-600'
                   : 'text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300'
                 }
               `}
               role="tab"
-              aria-selected={isActive}
-              aria-controls={`panel-${section.id}`}
-              tabIndex={0}
+              aria-selected={getAriaSelected(index)}
+              aria-controls={`tabpanel-${section.id}`}
+              tabIndex={getTabIndex(index)}
+              id={`tab-${section.id}`}
             >
               {section.label}
               
               {/* Indicador visual adicional para sección activa */}
               {isActive && (
                 <span 
-                  className="absolute inset-x-0 -bottom-px h-0.5 bg-blue-600"
+                  className="absolute inset-x-0 -bottom-px h-0.5 bg-primary-600"
                   aria-hidden="true"
                 />
               )}
