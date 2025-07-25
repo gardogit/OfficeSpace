@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Employee } from '../../types';
 import { Avatar, Card, Button } from '../ui';
 
@@ -27,37 +27,51 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
   };
 
   return (
-    <Card variant="compact" className="text-center hover:shadow-lg transition-shadow duration-300">
-      <div className="flex flex-col items-center space-y-3">
-        <Avatar
-          src={employee.avatar}
-          name={employee.name}
-          size="lg"
-          className="mx-auto"
-        />
+    <Card 
+      variant="compact" 
+      className="text-center group animate-fade-in"
+      interactive={!!onViewDetails}
+      onClick={onViewDetails ? handleViewDetails : undefined}
+    >
+      <div className="flex flex-col items-center content-spacing">
+        <div className="relative">
+          <Avatar
+            src={employee.avatar}
+            name={employee.name}
+            size="lg"
+            className="mx-auto group-hover:ring-2 group-hover:ring-primary-200 group-hover:ring-offset-2 transition-all duration-200"
+            showStatus={true}
+            status="online"
+          />
+        </div>
         
-        <div className="space-y-1">
-          <h3 className="font-semibold text-gray-900 text-lg">
+        <div className="space-y-2 text-center">
+          <h3 className="heading-4 text-balance group-hover:text-primary-700 transition-colors duration-200">
             {employee.name}
           </h3>
-          <p className="text-primary-600 font-medium">
+          <p className="body-small text-primary-600 font-medium">
             {employee.position}
           </p>
-          <p className="text-gray-600 text-sm">
+          <p className="caption text-gray-500">
             {employee.department}
           </p>
         </div>
 
-        <div className="text-xs text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+        <div className="badge badge-secondary">
           Inicio: {formatStartDate(employee.startDate)}
         </div>
 
-        {employee.bio && (
+        {employee.bio && !onViewDetails && (
           <Button
             variant="ghost"
             size="sm"
             onClick={handleViewDetails}
-            className="text-primary-600 hover:text-primary-700"
+            className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            icon={
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            }
           >
             Ver detalles
           </Button>
