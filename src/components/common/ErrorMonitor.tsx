@@ -32,7 +32,7 @@ export const ErrorMonitor: React.FC<ErrorMonitorProps> = ({
     }
   }, [isVisible]);
 
-  if (!isVisible || process.env.NODE_ENV === 'production') {
+  if (!isVisible || import.meta.env.PROD) {
     return null;
   }
 
@@ -107,7 +107,7 @@ export const ErrorMonitor: React.FC<ErrorMonitorProps> = ({
                       {Object.entries(errorStats.componentStats).map(([component, count]) => (
                         <div key={component} className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">{component}</span>
-                          <span className="text-sm font-medium text-red-600">{count}</span>
+                          <span className="text-sm font-medium text-red-600">{String(count)}</span>
                         </div>
                       ))}
                     </div>
