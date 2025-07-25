@@ -6,20 +6,13 @@ import {
   NewHiresGrid 
 } from './components/dashboard';
 import { 
-  ErrorBoundary, 
-  DashboardErrorBoundary,
   CriticalErrorBoundary,
-  HeaderSkeleton,
-  NewsCarouselSkeleton,
-  EventsListSkeleton,
-  EmployeeGridSkeleton,
   DashboardSkeleton,
-  DashboardComponentWrapper,
   EnhancedErrorBoundary
 } from './components/common';
 import { useNavigation, useMockDataLoader } from './hooks';
 import mockData from './data/mockData.json';
-import { MockData } from './types';
+
 import { sanitizePartialMockData, getDataHealthStatus } from './utils/dataValidation';
 import { ErrorMetrics } from './utils/errorRecovery';
 
