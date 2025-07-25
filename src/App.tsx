@@ -297,7 +297,7 @@ function App() {
                     componentName="Equipo"
                     onError={(error) => ErrorMetrics.getInstance().recordError('NewHiresGrid', error)}
                   >
-                    <NewHiresGrid newHires={filteredNewHires} />
+                    <NewHiresGrid newHires={filteredNewHires} maxColumns={2} />
                   </EnhancedErrorBoundary>
                 </section>
               )}

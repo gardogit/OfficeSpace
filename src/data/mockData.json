@@ -64,8 +64,8 @@
       "id": "event-001",
       "title": "Reunión Mensual de Equipo",
       "description": "Revisión de objetivos del mes y planificación de próximas iniciativas.",
-      "startDate": "2024-01-25T10:00:00Z",
-      "endDate": "2024-01-25T11:30:00Z",
+      "startDate": "2025-07-28T10:00:00Z",
+      "endDate": "2025-07-28T11:30:00Z",
       "location": "Sala de Conferencias A",
       "organizer": "Ana Martínez",
       "attendees": 15
@@ -74,18 +74,18 @@
       "id": "event-002",
       "title": "Workshop de React Avanzado",
       "description": "Sesión práctica sobre hooks avanzados y patrones de diseño en React.",
-      "startDate": "2024-01-28T14:00:00Z",
-      "endDate": "2024-01-28T17:00:00Z",
+      "startDate": "2025-07-30T14:00:00Z",
+      "endDate": "2025-07-30T17:00:00Z",
       "location": "Laboratorio de Desarrollo",
       "organizer": "Carlos Ruiz",
       "attendees": 8
     },
     {
       "id": "event-003",
-      "title": "Presentación de Resultados Q4",
-      "description": "Presentación de los resultados financieros y operativos del último trimestre.",
-      "startDate": "2024-01-30T09:00:00Z",
-      "endDate": "2024-01-30T10:30:00Z",
+      "title": "Presentación de Resultados Q2",
+      "description": "Presentación de los resultados financieros y operativos del segundo trimestre.",
+      "startDate": "2025-08-02T09:00:00Z",
+      "endDate": "2025-08-02T10:30:00Z",
       "location": "Auditorio Principal",
       "organizer": "Dirección Financiera",
       "attendees": 45
@@ -94,8 +94,8 @@
       "id": "event-004",
       "title": "Sesión de Brainstorming - Producto",
       "description": "Generación de ideas para nuevas funcionalidades del producto principal.",
-      "startDate": "2024-02-02T15:00:00Z",
-      "endDate": "2024-02-02T16:30:00Z",
+      "startDate": "2025-08-05T15:00:00Z",
+      "endDate": "2025-08-05T16:30:00Z",
       "location": "Sala Creativa",
       "organizer": "Equipo de Producto",
       "attendees": 12
@@ -104,8 +104,8 @@
       "id": "event-005",
       "title": "Almuerzo de Bienvenida",
       "description": "Almuerzo especial para dar la bienvenida a los nuevos miembros del equipo.",
-      "startDate": "2024-02-05T12:30:00Z",
-      "endDate": "2024-02-05T14:00:00Z",
+      "startDate": "2025-08-08T12:30:00Z",
+      "endDate": "2025-08-08T14:00:00Z",
       "location": "Comedor Principal",
       "organizer": "Recursos Humanos",
       "attendees": 25
@@ -114,8 +114,8 @@
       "id": "event-006",
       "title": "Hackathon Interno",
       "description": "Competencia de 24 horas para desarrollar soluciones innovadoras.",
-      "startDate": "2024-02-08T09:00:00Z",
-      "endDate": "2024-02-09T09:00:00Z",
+      "startDate": "2025-08-12T09:00:00Z",
+      "endDate": "2025-08-13T09:00:00Z",
       "location": "Espacio de Innovación",
       "organizer": "Equipo de Tecnología",
       "attendees": 20
@@ -124,8 +124,8 @@
       "id": "event-007",
       "title": "Charla: Tendencias en UX/UI",
       "description": "Conferencia sobre las últimas tendencias en diseño de experiencia de usuario.",
-      "startDate": "2024-02-12T11:00:00Z",
-      "endDate": "2024-02-12T12:00:00Z",
+      "startDate": "2025-08-15T11:00:00Z",
+      "endDate": "2025-08-15T12:00:00Z",
       "location": "Sala de Conferencias B",
       "organizer": "Equipo de Diseño",
       "attendees": 18
@@ -134,11 +134,31 @@
       "id": "event-008",
       "title": "Revisión de Seguridad IT",
       "description": "Auditoría mensual de seguridad y actualización de protocolos.",
-      "startDate": "2024-02-15T13:00:00Z",
-      "endDate": "2024-02-15T15:00:00Z",
+      "startDate": "2025-08-18T13:00:00Z",
+      "endDate": "2025-08-18T15:00:00Z",
       "location": "Centro de Operaciones IT",
       "organizer": "Seguridad IT",
       "attendees": 6
+    },
+    {
+      "id": "event-009",
+      "title": "Conferencia de Arquitectura de Software",
+      "description": "Presentación sobre mejores prácticas en arquitectura de microservicios y sistemas distribuidos.",
+      "startDate": "2025-08-22T09:30:00Z",
+      "endDate": "2025-08-22T12:00:00Z",
+      "location": "Auditorio Principal",
+      "organizer": "Equipo de Arquitectura",
+      "attendees": 35
+    },
+    {
+      "id": "event-010",
+      "title": "Team Building - Escape Room",
+      "description": "Actividad de team building para fortalecer la colaboración entre equipos.",
+      "startDate": "2025-08-25T16:00:00Z",
+      "endDate": "2025-08-25T18:30:00Z",
+      "location": "Escape Room Downtown",
+      "organizer": "Recursos Humanos",
+      "attendees": 22
     }
   ],
   "newHires": [

@@ -8,12 +8,14 @@ export interface NewHiresGridProps {
   newHires: Employee[];
   title?: string;
   className?: string;
+  maxColumns?: 2 | 3 | 4;
 }
 
 export const NewHiresGrid: React.FC<NewHiresGridProps> = ({
   newHires,
   title = "Nuevos Empleados",
-  className = ''
+  className = '',
+  maxColumns = 4
 }) => {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,7 +53,13 @@ export const NewHiresGrid: React.FC<NewHiresGridProps> = ({
   return (
     <>
       <Card title={title} className={className}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className={`grid gap-4 ${
+          maxColumns === 2 
+            ? 'grid-cols-1 sm:grid-cols-2' 
+            : maxColumns === 3 
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' 
+            : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+        }`}>
           {sortedNewHires.map((employee) => (
             <EmployeeCard
               key={employee.id}

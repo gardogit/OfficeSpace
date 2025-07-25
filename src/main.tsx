@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-//import App from './DesignSystemDemo.tsx' Sistema de diseño
+//import App from './App.tsx' Sistema de diseño
 import App from './App.tsx'
 import './styles/globals.css'
 

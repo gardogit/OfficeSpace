@@ -32,7 +32,7 @@ export const ErrorMonitor: React.FC<ErrorMonitorProps> = ({
     }
   }, [isVisible]);
 
-  if (!isVisible || import.meta.env.PROD) {
+  if (!isVisible || import.meta.env.MODE === 'production') {
     return null;
   }
 

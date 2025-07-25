@@ -1,6 +1,6 @@
-import React from 'react';
-import { Employee } from '../../types';
-import { Avatar, Card, Button } from '../ui';
+import React from "react";
+import { Employee } from "../../types";
+import { Avatar, Card, Button } from "../ui";
 
 export interface EmployeeCardProps {
   employee: Employee;
@@ -9,14 +9,13 @@ export interface EmployeeCardProps {
 
 export const EmployeeCard: React.FC<EmployeeCardProps> = ({
   employee,
-  onViewDetails
+  onViewDetails,
 }) => {
   const formatStartDate = (dateString: string): string => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    return date.toLocaleDateString("es-ES", {
+      day: "numeric",
+      month: "long",
     });
   };
 
@@ -27,8 +26,8 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
   };
 
   return (
-    <Card 
-      variant="compact" 
+    <Card
+      variant="compact"
       className="text-center group animate-fade-in"
       interactive={!!onViewDetails}
       onClick={onViewDetails ? handleViewDetails : undefined}
@@ -44,7 +43,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
             status="online"
           />
         </div>
-        
+
         <div className="space-y-2 text-center">
           <h3 className="heading-4 text-balance group-hover:text-primary-700 transition-colors duration-200">
             {employee.name}
@@ -52,9 +51,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
           <p className="body-small text-primary-600 font-medium">
             {employee.position}
           </p>
-          <p className="caption text-gray-500">
-            {employee.department}
-          </p>
+          <p className="caption text-gray-500">{employee.department}</p>
         </div>
 
         <div className="badge badge-secondary">
@@ -68,8 +65,18 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
             onClick={handleViewDetails}
             className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
             icon={
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             }
           >
