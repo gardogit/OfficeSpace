@@ -1,8 +1,7 @@
 import { useState, lazy, Suspense } from "react";
 import {
   MainLayout,
-  Header,
-  NavigationBar,
+  UnifiedNavbar,
   SidebarTabs,
 } from "./components/layout";
 import {
@@ -421,24 +420,16 @@ function AppContent() {
   return (
     <CriticalErrorBoundary componentName="MainLayout">
       <MainLayout
-        header={
-          <CriticalErrorBoundary componentName="Header">
-            <Header user={data.currentUser} onSearch={handleSearch} />
-          </CriticalErrorBoundary>
-        }
-        navigation={
-          <EnhancedErrorBoundary
-            componentName="NavigationBar"
-            onError={(error) =>
-              ErrorMetrics.getInstance().recordError("NavigationBar", error)
-            }
-          >
-            <NavigationBar
+        navbar={
+          <CriticalErrorBoundary componentName="UnifiedNavbar">
+            <UnifiedNavbar
+              user={data.currentUser}
               sections={sections}
               activeSection={activeSection}
               onSectionChange={handleSectionChange}
+              onSearch={handleSearch}
             />
-          </EnhancedErrorBoundary>
+          </CriticalErrorBoundary>
         }
         sidebar={
           <EnhancedErrorBoundary
@@ -504,18 +495,29 @@ function AppContent() {
           {/* Search Results Indicator */}
           {searchQuery && (
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <p className="text-blue-800 dark:text-blue-200 text-sm">
-                Mostrando resultados para: <strong>"{searchQuery}"</strong>
-                {activeSection !== "inicio" && (
-                  <span>
-                    {" "}
-                    en la sección{" "}
-                    <strong>
-                      {sections.find((s) => s.id === activeSection)?.label}
-                    </strong>
-                  </span>
-                )}
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-blue-800 dark:text-blue-200 text-sm">
+                  Mostrando resultados para: <strong>"{searchQuery}"</strong>
+                  {activeSection !== "inicio" && (
+                    <span>
+                      {" "}
+                      en la sección{" "}
+                      <strong>
+                        {sections.find((s) => s.id === activeSection)?.label}
+                      </strong>
+                    </span>
+                  )}
+                </p>
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="ml-4 p-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 focus-ring rounded transition-colors duration-200"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
 

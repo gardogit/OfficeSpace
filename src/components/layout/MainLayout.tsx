@@ -2,46 +2,36 @@ import React from 'react';
 
 interface MainLayoutProps {
   children: React.ReactNode;
-  header?: React.ReactNode;
+  navbar?: React.ReactNode;
   sidebar?: React.ReactNode;
-  navigation?: React.ReactNode;
 }
 
 /**
- * MainLayout - Componente principal con navbar de ancho completo y sidebar debajo
+ * MainLayout - Componente principal con navbar unificado de una sola fila
  * del dashboard de intranet corporativa.
  * 
  * Estructura:
- * - Header: Barra superior fija de ancho completo
- * - Navigation: Barra de navegación horizontal de ancho completo
- * - Sidebar: Columna fija a la izquierda con pestañas verticales (debajo del navbar)
+ * - Navbar: Barra superior unificada con logo, navegación y controles
+ * - Sidebar: Columna fija a la izquierda con pestañas verticales
  * - Main Content: Área principal de contenido
  */
 export const MainLayout: React.FC<MainLayoutProps> = ({
   children,
-  header,
-  sidebar,
-  navigation
+  navbar,
+  sidebar
 }) => {
   return (
     <div className="h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 flex flex-col">
-      {/* Header - Barra superior de ancho completo */}
-      {header && (
-        <header className="flex-shrink-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
-          {header}
-        </header>
-      )}
-
-      {/* Navigation Bar - Navegación horizontal de ancho completo */}
-      {navigation && (
-        <nav className="flex-shrink-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-200">
-          {navigation}
-        </nav>
+      {/* Unified Navbar - Barra superior unificada */}
+      {navbar && (
+        <div className="flex-shrink-0 z-40">
+          {navbar}
+        </div>
       )}
 
       {/* Content Area - Sidebar + Main Content */}
       <div className="flex-1 flex min-h-0">
-        {/* Sidebar - Columna fija a la izquierda (debajo del navbar) */}
+        {/* Sidebar - Columna fija a la izquierda */}
         {sidebar && (
           <div className="flex-shrink-0 w-80 z-20">
             {sidebar}
