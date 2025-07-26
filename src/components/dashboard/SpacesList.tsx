@@ -116,14 +116,14 @@ export const SpacesList: React.FC<SpacesListProps> = ({
                   {space.description}
                 </p>
 
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                  <span className="flex items-center gap-1">
+                <div className="space-y-1 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
                     <IoPeopleOutline className="w-3 h-3" aria-hidden="true" />
                     {space.memberCount} miembro
                     {space.memberCount !== 1 ? "s" : ""}
-                  </span>
+                  </div>
 
-                  <span>{formatLastActivity(space.lastActivity)}</span>
+                  <div>{formatLastActivity(space.lastActivity)}</div>
                 </div>
               </div>
 

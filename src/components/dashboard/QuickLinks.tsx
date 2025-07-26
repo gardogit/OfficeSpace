@@ -29,8 +29,8 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
   }, {} as Record<string, QuickLink[]>);
 
   const handleLinkClick = (url: string) => {
-    // Abrir enlace en nueva pestaña para recursos externos
-    window.open(url, '_blank', 'noopener,noreferrer');
+    // Solo mostrar como ejemplo, no abrir enlaces externos
+    console.log('Enlace clickeado:', url);
   };
 
   return (
