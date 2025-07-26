@@ -14,6 +14,9 @@ import {
 const NewsCarousel = lazy(() => 
   import("./components/dashboard").then(module => ({ default: module.NewsCarousel }))
 );
+const NewsGrid = lazy(() => 
+  import("./components/dashboard").then(module => ({ default: module.NewsGrid }))
+);
 const UpcomingEventsList = lazy(() => 
   import("./components/dashboard").then(module => ({ default: module.UpcomingEventsList }))
 );
@@ -176,20 +179,14 @@ function AppContent() {
             role="tabpanel"
             aria-labelledby="tab-noticias"
           >
-            <h2
-              id="news-heading"
-              className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6"
-            >
-              Noticias de la Empresa
-            </h2>
             <EnhancedErrorBoundary
               componentName="Noticias"
               onError={(error) =>
-                ErrorMetrics.getInstance().recordError("NewsCarousel", error)
+                ErrorMetrics.getInstance().recordError("NewsGrid", error)
               }
             >
               <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>}>
-                <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+                <NewsGrid news={filteredNews} />
               </Suspense>
             </EnhancedErrorBoundary>
           </section>
