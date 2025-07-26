@@ -282,66 +282,6 @@
       "category": "SOPORTE IT"
     },
     {
-      "id": "link-010",
-      "title": "Documentación Técnica",
-      "url": "https://docs.empresa.com",
-      "category": "DESARROLLO"
-    },
-    {
-      "id": "link-011",
-      "title": "Repositorio de Código",
-      "url": "https://git.empresa.com",
-      "category": "DESARROLLO"
-    },
-    {
-      "id": "link-012",
-      "title": "CI/CD Pipeline",
-      "url": "https://ci.empresa.com",
-      "category": "DESARROLLO"
-    },
-    {
-      "id": "link-013",
-      "title": "API Documentation",
-      "url": "https://api-docs.empresa.com",
-      "category": "DESARROLLO"
-    },
-    {
-      "id": "link-014",
-      "title": "Testing Environment",
-      "url": "https://testing.empresa.com",
-      "category": "DESARROLLO"
-    },
-    {
-      "id": "link-015",
-      "title": "Calendario Corporativo",
-      "url": "https://calendar.empresa.com",
-      "category": "HERRAMIENTAS"
-    },
-    {
-      "id": "link-016",
-      "title": "Sistema de Gastos",
-      "url": "https://expenses.empresa.com",
-      "category": "HERRAMIENTAS"
-    },
-    {
-      "id": "link-017",
-      "title": "Reserva de Salas",
-      "url": "https://salas.empresa.com",
-      "category": "HERRAMIENTAS"
-    },
-    {
-      "id": "link-018",
-      "title": "Dashboard de Métricas",
-      "url": "https://metrics.empresa.com",
-      "category": "HERRAMIENTAS"
-    },
-    {
-      "id": "link-019",
-      "title": "Gestión de Proyectos",
-      "url": "https://proyectos.empresa.com",
-      "category": "HERRAMIENTAS"
-    },
-    {
       "id": "link-020",
       "title": "Plataforma de Aprendizaje",
       "url": "https://learning.empresa.com",

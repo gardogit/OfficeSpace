@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MainLayout, Header, NavigationBar, Sidebar } from './components/layout';
+import { MainLayout, Header, NavigationBar, SidebarTabs } from './components/layout';
 import { 
   NewsCarousel, 
   UpcomingEventsList, 
@@ -8,7 +8,7 @@ import {
 import mockData from './data/mockData.json';
 
 function SimpleApp() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [, setSearchQuery] = useState('');
   const [activeSection, setActiveSection] = useState('inicio');
 
   const sections = [
@@ -41,7 +41,7 @@ function SimpleApp() {
         />
       }
       sidebar={
-        <Sidebar
+        <SidebarTabs
           quickLinks={mockData.quickLinks}
           spaces={mockData.spaces}
           applications={mockData.applications}

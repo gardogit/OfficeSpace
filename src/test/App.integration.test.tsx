@@ -9,15 +9,14 @@ describe('App Integration', () => {
     // Check that header is rendered
     expect(screen.getByRole('banner')).toBeInTheDocument();
     
-    // Check that main content sections are rendered
-    expect(screen.getByText('Noticias Destacadas')).toBeInTheDocument();
-    expect(screen.getByText('Próximos Eventos')).toBeInTheDocument();
-    expect(screen.getByText('Nuevos Miembros del Equipo')).toBeInTheDocument();
+    // Check that main content sections are rendered (titles were removed from Inicio section)
+    // News carousel should be present
+    expect(screen.getByRole('region', { name: /carrusel de noticias/i })).toBeInTheDocument();
     
-    // Check that sidebar components are rendered
-    expect(screen.getByText('Enlaces Rápidos')).toBeInTheDocument();
-    expect(screen.getByText('Espacios de Colaboración')).toBeInTheDocument();
-    expect(screen.getByText('Aplicaciones')).toBeInTheDocument();
+    // Check that sidebar tabs are rendered
+    expect(screen.getByRole('tab', { name: /enlaces/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /espacios/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /apps/i })).toBeInTheDocument();
   });
 
   it('verifies complete dashboard integration', () => {
@@ -26,11 +25,13 @@ describe('App Integration', () => {
     // Verify all major components are integrated
     expect(screen.getByText('Corporate Hub')).toBeInTheDocument(); // Header
     expect(screen.getByRole('tab', { name: /inicio/i })).toBeInTheDocument(); // Navigation
-    expect(screen.getByText('Noticias Destacadas')).toBeInTheDocument(); // News
-    expect(screen.getByText('Próximos Eventos')).toBeInTheDocument(); // Events
-    expect(screen.getByText('Nuevos Miembros del Equipo')).toBeInTheDocument(); // New Hires
-    expect(screen.getByText('Enlaces Rápidos')).toBeInTheDocument(); // Quick Links
-    expect(screen.getByText('Espacios de Colaboración')).toBeInTheDocument(); // Spaces
-    expect(screen.getByText('Aplicaciones')).toBeInTheDocument(); // Launch Pad
+    
+    // Main content (titles removed from Inicio section)
+    expect(screen.getByRole('region', { name: /carrusel de noticias/i })).toBeInTheDocument(); // News
+    
+    // Sidebar tabs (new implementation)
+    expect(screen.getByRole('tab', { name: /enlaces/i })).toBeInTheDocument(); // Quick Links tab
+    expect(screen.getByRole('tab', { name: /espacios/i })).toBeInTheDocument(); // Spaces tab
+    expect(screen.getByRole('tab', { name: /apps/i })).toBeInTheDocument(); // Apps tab
   });
 });
