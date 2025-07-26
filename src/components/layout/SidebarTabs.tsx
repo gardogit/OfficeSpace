@@ -3,7 +3,7 @@ import { QuickLink, Space, Application } from '../../types';
 import { QuickLinks } from '../dashboard/QuickLinks';
 import { SpacesList } from '../dashboard/SpacesList';
 import { LaunchPad } from '../dashboard/LaunchPad';
-import { Card } from '../ui';
+
 
 interface SidebarTabsProps {
   quickLinks: QuickLink[];

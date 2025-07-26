@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { MainLayout, Header, NavigationBar, SidebarTabs } from './components/layout';
-import { 
-  NewsCarousel, 
-  UpcomingEventsList, 
-  NewHiresGrid 
-} from './components/dashboard';
-import mockData from './data/mockData.json';
+import { useState } from "react";
+import { MainLayout, UnifiedNavbar, SidebarTabs } from "./components/layout";
+import {
+  NewsCarousel,
+  UpcomingEventsList,
+  NewHiresGrid,
+} from "./components/dashboard";
+import mockData from "./data/mockData.json";
 
 function SimpleApp() {
-  const [, setSearchQuery] = useState('');
-  const [activeSection, setActiveSection] = useState('inicio');
+  const [, setSearchQuery] = useState("");
+  const [activeSection, setActiveSection] = useState("inicio");
 
   const sections = [
-    { id: 'inicio', label: 'Inicio', icon: '🏠' },
-    { id: 'noticias', label: 'Noticias', icon: '📰' },
-    { id: 'eventos', label: 'Eventos', icon: '📅' },
-    { id: 'equipo', label: 'Equipo', icon: '👥' },
-    { id: 'recursos', label: 'Recursos', icon: '🔗' },
-    { id: 'espacios', label: 'Espacios', icon: '🏢' }
+    { id: "inicio", label: "Inicio", icon: "🏠" },
+    { id: "noticias", label: "Noticias", icon: "📰" },
+    { id: "eventos", label: "Eventos", icon: "📅" },
+    { id: "equipo", label: "Equipo", icon: "👥" },
+    { id: "recursos", label: "Recursos", icon: "🔗" },
+    { id: "espacios", label: "Espacios", icon: "🏢" },
   ];
 
   const handleSearch = (query: string) => {
@@ -30,14 +30,13 @@ function SimpleApp() {
 
   return (
     <MainLayout
-      header={
-        <Header user={mockData.currentUser} onSearch={handleSearch} />
-      }
-      navigation={
-        <NavigationBar
+      navbar={
+        <UnifiedNavbar
+          user={mockData.currentUser}
           sections={sections}
           activeSection={activeSection}
           onSectionChange={handleSectionChange}
+          onSearch={handleSearch}
         />
       }
       sidebar={
