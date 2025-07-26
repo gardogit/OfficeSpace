@@ -4,6 +4,7 @@ import { useAnnouncements } from '../../hooks/useAccessibility';
 export interface SearchBarProps {
   onSearch?: (query: string) => void;
   placeholder?: string;
+  autoFocus?: boolean;
 }
 
 /**
@@ -16,7 +17,8 @@ export interface SearchBarProps {
  */
 export const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
-  placeholder = "Buscar en el portal..."
+  placeholder = "Buscar en el portal...",
+  autoFocus = false
 }) => {
   const [query, setQuery] = useState('');
   const searchId = useId();
@@ -74,6 +76,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           aria-label="Campo de búsqueda"
           aria-describedby={`${searchId}-help`}
           autoComplete="off"
+          autoFocus={autoFocus}
         />
 
         {/* Hidden help text for screen readers */}
