@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QuickLink, Space, Application } from '../../types';
 import { QuickLinks } from '../dashboard/QuickLinks';
 import { SpacesList } from '../dashboard/SpacesList';
@@ -36,6 +36,47 @@ export const SidebarTabs: React.FC<SidebarTabsProps> = ({
   className = ''
 }) => {
   const [activeTab, setActiveTab] = useState<TabId>('links');
+  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size changes
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mobile = window.innerWidth < 1024; // lg breakpoint
+      setIsMobile(mobile);
+      
+      // Auto-hide content on mobile when screen size changes
+      if (mobile) {
+        setIsContentVisible(false);
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Handle tab click - show content on mobile, just switch tab on desktop
+  const handleTabClick = (tabId: TabId) => {
+    if (isMobile) {
+      if (activeTab === tabId && isContentVisible) {
+        // If clicking the same active tab, toggle visibility
+        setIsContentVisible(!isContentVisible);
+      } else {
+        // Switch tab and show content
+        setActiveTab(tabId);
+        setIsContentVisible(true);
+      }
+    } else {
+      // Desktop behavior - just switch tabs
+      setActiveTab(tabId);
+    }
+  };
+
+  // Close content panel
+  const handleCloseContent = () => {
+    setIsContentVisible(false);
+  };
 
   const tabs: Tab[] = [
     {
@@ -84,81 +125,124 @@ export const SidebarTabs: React.FC<SidebarTabsProps> = ({
   };
 
   return (
-    <div className={`flex h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 ${className}`}>
-      {/* Vertical Tab Navigation */}
-      <div className="w-20 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-        <nav className="flex flex-col flex-1 py-4" role="tablist" aria-label="Navegación de pestañas">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`relative flex flex-col items-center justify-center p-3 mb-2 mx-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 group ${
-                activeTab === tab.id
-                  ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-              }`}
-              role="tab"
-              aria-selected={activeTab === tab.id}
-              aria-controls={`tabpanel-${tab.id}`}
-              id={`tab-${tab.id}`}
-            >
-              <div className="relative">
-                <div className="group-hover:scale-110 transition-transform duration-200">
-                  {tab.icon}
+    <>
+      <div className={`flex h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 ${className}`}>
+        {/* Vertical Tab Navigation - Always visible */}
+        <div className="w-20 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          <nav className="flex flex-col flex-1 py-4" role="tablist" aria-label="Navegación de pestañas">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => handleTabClick(tab.id)}
+                className={`relative flex flex-col items-center justify-center p-3 mb-2 mx-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 group ${
+                  activeTab === tab.id
+                    ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                aria-controls={`tabpanel-${tab.id}`}
+                id={`tab-${tab.id}`}
+              >
+                <div className="relative">
+                  <div className="group-hover:scale-110 transition-transform duration-200">
+                    {tab.icon}
+                  </div>
+                  {/* Counter badge solapado sobre el ícono */}
+                  {tab.count !== undefined && tab.count > 0 && (
+                    <span className={`absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full ${
+                      activeTab === tab.id
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-gray-400 dark:bg-gray-600 text-white'
+                    }`}>
+                      {tab.count > 99 ? '99+' : tab.count}
+                    </span>
+                  )}
                 </div>
-                {/* Counter badge solapado sobre el ícono */}
-                {tab.count !== undefined && tab.count > 0 && (
-                  <span className={`absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full ${
-                    activeTab === tab.id
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-gray-400 dark:bg-gray-600 text-white'
-                  }`}>
-                    {tab.count > 99 ? '99+' : tab.count}
-                  </span>
-                )}
+                <span className="text-xs mt-1 font-normal">{tab.label}</span>
+              </button>
+            ))}
+          </nav>
+
+          {/* Help Button at Bottom */}
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-auto">
+            <button
+              onClick={() => {
+                // Handle help action
+                console.log('Help clicked');
+              }}
+              className="relative flex flex-col items-center justify-center p-3 mb-2 mx-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 group text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Ayuda y soporte"
+            >
+              <div className="group-hover:scale-110 transition-transform duration-200">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-              <span className="text-xs mt-1 font-normal">{tab.label}</span>
+              <span className="text-xs mt-1 font-normal">Ayuda</span>
             </button>
-          ))}
-        </nav>
+          </div>
+        </div>
 
-        {/* Help Button at Bottom */}
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-auto">
-          <button
-            onClick={() => {
-              // Handle help action
-              console.log('Help clicked');
-            }}
-            className="relative flex flex-col items-center justify-center p-3 mb-2 mx-2 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 group text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-            aria-label="Ayuda y soporte"
-          >
-            <div className="group-hover:scale-110 transition-transform duration-200">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+        {/* Desktop Tab Content */}
+        {!isMobile && (
+          <div className="flex-1 flex flex-col min-w-0">
+            <div
+              id={`tabpanel-${activeTab}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${activeTab}`}
+              className="flex-1 p-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent overflow-y-auto"
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgb(209 213 219) transparent'
+              }}
+              aria-label="Contenido de la barra lateral"
+            >
+              {renderTabContent()}
             </div>
-            <span className="text-xs mt-1 font-normal">Ayuda</span>
-          </button>
-        </div>
+          </div>
+        )}
       </div>
 
-      {/* Tab Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <div
-          id={`tabpanel-${activeTab}`}
-          role="tabpanel"
-          aria-labelledby={`tab-${activeTab}`}
-          className="flex-1 p-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent overflow-y-auto"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgb(209 213 219) transparent'
-          }}
-          aria-label="Contenido de la barra lateral"
-        >
-          {renderTabContent()}
-        </div>
-      </div>
-    </div>
+      {/* Mobile Overlay - Outside the main container */}
+      {isMobile && isContentVisible && (
+        <>
+          {/* Overlay Background */}
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={handleCloseContent}
+            aria-hidden="true"
+          />
+          
+          {/* Overlay Content */}
+          <div className="fixed top-16 left-0 right-0 bottom-0 z-50 bg-white dark:bg-gray-800 transform transition-transform duration-300 ease-in-out">
+            {/* Mobile Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {tabs.find(tab => tab.id === activeTab)?.label}
+              </h3>
+              <button
+                onClick={handleCloseContent}
+                className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 focus-ring rounded-lg transition-colors duration-200"
+                aria-label="Cerrar panel"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Mobile Content */}
+            <div
+              className="flex-1 p-4 overflow-y-auto"
+              style={{ height: 'calc(100vh - 8rem)' }}
+            >
+              {renderTabContent()}
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

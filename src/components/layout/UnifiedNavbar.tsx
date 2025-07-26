@@ -33,6 +33,7 @@ export const UnifiedNavbar: React.FC<UnifiedNavbarProps> = ({
 }) => {
   const { skipToContent, skipToNavigation } = useSkipLinks();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [internalActiveSection, setInternalActiveSection] = useState<string>(
     activeSection || sections[0]?.id || ''
   );
@@ -50,6 +51,12 @@ export const UnifiedNavbar: React.FC<UnifiedNavbarProps> = ({
   const handleSectionClick = (sectionId: string, event: React.MouseEvent) => {
     event.preventDefault();
     handleSectionActivation(sectionId);
+    // Close mobile menu when section is selected
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -125,9 +132,9 @@ export const UnifiedNavbar: React.FC<UnifiedNavbarProps> = ({
               </button>
             </div>
           ) : (
-            /* Navigation Menu */
+            /* Navigation Menu - Hidden on mobile */
             <nav 
-              className="flex space-x-6 overflow-x-auto scrollbar-thin"
+              className="hidden md:flex space-x-6 overflow-x-auto scrollbar-thin"
               role="tablist"
               aria-label="Navegación principal del dashboard"
               id="main-navigation"

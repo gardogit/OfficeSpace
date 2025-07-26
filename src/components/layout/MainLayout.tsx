@@ -31,9 +31,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
 
       {/* Content Area - Sidebar + Main Content */}
       <div className="flex-1 flex min-h-0">
-        {/* Sidebar - Columna fija a la izquierda */}
+        {/* Sidebar - Responsive: full width on desktop, icon-only on mobile */}
         {sidebar && (
-          <div className="flex-shrink-0 w-80 z-20">
+          <div className="flex-shrink-0 lg:w-80 w-20 z-20 relative">
             {sidebar}
           </div>
         )}
