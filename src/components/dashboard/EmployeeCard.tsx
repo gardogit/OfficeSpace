@@ -28,7 +28,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
   return (
     <Card
       variant="compact"
-      className="text-center group animate-fade-in"
+      className="text-center group"
       interactive={!!onViewDetails}
       onClick={onViewDetails ? handleViewDetails : undefined}
     >
@@ -38,14 +38,14 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
             src={employee.avatar}
             name={employee.name}
             size="lg"
-            className="mx-auto group-hover:ring-2 group-hover:ring-primary-200 dark:group-hover:ring-primary-700 group-hover:ring-offset-2 transition-all duration-200"
+            className="mx-auto group-hover:ring-2 group-hover:ring-primary-200 dark:group-hover:ring-primary-700 group-hover:ring-offset-2"
             showStatus={true}
             status="online"
           />
         </div>
 
         <div className="space-y-2 text-center">
-          <h3 className="heading-4 text-balance group-hover:text-primary-700 dark:group-hover:text-primary-400 transition-colors duration-200">
+          <h3 className="heading-4 text-balance group-hover:text-primary-700 dark:group-hover:text-primary-400">
             {employee.name}
           </h3>
           <p className="body-small text-primary-600 dark:text-primary-400 font-medium">
@@ -63,7 +63,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
             variant="ghost"
             size="sm"
             onClick={handleViewDetails}
-            className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            className="mt-2 opacity-0 group-hover:opacity-100"
             icon={
               <svg
                 className="w-4 h-4"

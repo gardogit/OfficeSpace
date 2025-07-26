@@ -66,7 +66,7 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
       aria-label="Enlaces rápidos"
     >
       {Object.entries(groupedLinks).map(([category, categoryLinks], index) => (
-        <div key={category} className="animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
+        <div key={category}>
           {/* Header de categoría */}
           <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-100 dark:border-gray-700">
             <div className="text-primary-600 dark:text-primary-400">
@@ -83,14 +83,13 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.url)}
-                className="w-full flex items-center gap-3 p-3 text-left body-small text-gray-600 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-all duration-200 focus-ring group hover-lift"
+                className="w-full flex items-center gap-3 p-3 text-left body-small text-gray-600 dark:text-gray-300 hover:text-primary-700 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg focus-ring group"
                 aria-label={`Abrir ${link.title} en nueva pestaña`}
-                style={{ animationDelay: `${(index * 100) + (linkIndex * 50)}ms` }}
               >
                 {/* Icono del enlace */}
                 {link.icon && (
                   <span 
-                    className="text-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-200" 
+                    className="text-lg flex-shrink-0" 
                     role="img" 
                     aria-hidden="true"
                   >
@@ -105,7 +104,7 @@ export const QuickLinks: React.FC<QuickLinksProps> = ({
                 
                 {/* Indicador de enlace externo */}
                 <svg
-                  className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0 group-hover:text-primary-500 dark:group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all duration-200"
+                  className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0 group-hover:text-primary-500 dark:group-hover:text-primary-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

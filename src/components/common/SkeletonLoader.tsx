@@ -13,7 +13,7 @@ export const Skeleton: React.FC<{
 
   return (
     <div
-      className={`animate-pulse bg-gray-200 rounded ${className}`}
+      className={`bg-gray-200 rounded ${className}`}
       style={style}
       aria-hidden="true"
     />
@@ -212,7 +212,7 @@ export const LoadingWithProgress: React.FC<{
 }> = ({ message = 'Cargando...', progress }) => (
   <div className="flex flex-col items-center justify-center p-8">
     <div className="relative">
-      <div className="w-16 h-16 border-4 border-gray-200 border-t-primary-600 rounded-full animate-spin"></div>
+      <div className="w-16 h-16 border-4 border-gray-200 border-t-primary-600 rounded-full"></div>
       {progress !== undefined && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs font-medium text-primary-600">
@@ -242,7 +242,7 @@ export const ShimmerSkeleton: React.FC<{
       style={style}
       aria-hidden="true"
     >
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
     </div>
   );
 };

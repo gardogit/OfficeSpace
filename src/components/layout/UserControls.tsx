@@ -74,7 +74,7 @@ export const UserControls: React.FC<UserControlsProps> = ({ user }) => {
 
         {/* Dropdown Arrow */}
         <IoChevronDown
-          className={`w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${
+          className={`w-4 h-4 text-gray-400 dark:text-gray-500 ${
             isDropdownOpen ? "rotate-180" : ""
           }`}
         />

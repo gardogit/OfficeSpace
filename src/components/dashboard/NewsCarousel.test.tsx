@@ -50,21 +50,21 @@ describe('NewsCarousel', () => {
       render(<NewsCarousel news={mockNews} />);
       
       // Should show loading skeleton
-      expect(document.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(document.querySelector('.bg-gray-200')).toBeInTheDocument();
     });
 
     it('should hide loading state after timeout', () => {
       render(<NewsCarousel news={mockNews} />);
       
       // Should show loading initially
-      expect(document.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(document.querySelector('.bg-gray-200')).toBeInTheDocument();
       
       // Fast-forward time to complete loading
       act(() => {
         vi.advanceTimersByTime(500);
       });
 
-      expect(document.querySelector('.animate-pulse')).not.toBeInTheDocument();
+      expect(document.querySelector('.bg-gray-200')).not.toBeInTheDocument();
     });
   });
 

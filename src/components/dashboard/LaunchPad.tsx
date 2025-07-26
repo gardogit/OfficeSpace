@@ -49,13 +49,12 @@ export const LaunchPad: React.FC<LaunchPadProps> = ({
           <button
             key={app.id}
             onClick={() => handleAppClick(app)}
-            className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 focus-ring group hover-lift animate-scale-in ${getCategoryColor(app.category)}`}
+            className={`flex flex-col items-center justify-center p-4 rounded-xl focus-ring group ${getCategoryColor(app.category)}`}
             aria-label={`Abrir ${app.name}: ${app.description}`}
             title={app.description}
-            style={{ animationDelay: `${index * 100}ms` }}
           >
             {/* Icono de la aplicación */}
-            <div className="text-3xl mb-2 group-hover:scale-125 transition-transform duration-200 group-hover:rotate-12">
+            <div className="text-3xl mb-2">
               <span role="img" aria-hidden="true">
                 {app.icon}
               </span>

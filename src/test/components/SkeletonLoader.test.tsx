@@ -17,7 +17,7 @@ describe('Skeleton', () => {
     const { container } = render(<Skeleton />);
     const skeleton = container.firstChild as HTMLElement;
     
-    expect(skeleton).toHaveClass('animate-pulse', 'bg-gray-200', 'rounded');
+    expect(skeleton).toHaveClass('bg-gray-200', 'rounded');
   });
 
   it('applies custom className', () => {

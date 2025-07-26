@@ -46,7 +46,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, isExpanded, onToggleExpand
           </div>
           <div className="flex-shrink-0 ml-3">
             <span 
-              className={`inline-block transform transition-transform duration-200 text-gray-400 dark:text-gray-500 ${
+              className={`inline-block text-gray-400 dark:text-gray-500 ${
                 isExpanded ? 'rotate-180' : 'rotate-0'
               }`}
               aria-hidden="true"

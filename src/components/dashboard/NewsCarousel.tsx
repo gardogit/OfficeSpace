@@ -162,7 +162,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
   // Loading state
   if (isLoading) {
     return (
-      <Card className={`${className} animate-pulse`}>
+      <Card className={`${className}`}>
         <div className="space-y-4">
           <div className="h-48 bg-gray-200 rounded-lg"></div>
           <div className="space-y-2">
@@ -233,7 +233,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             <img
               src={currentArticle.imageUrl}
               alt={`Imagen del artículo: ${currentArticle.title}`}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';

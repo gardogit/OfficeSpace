@@ -17,7 +17,7 @@ export const Card: React.FC<CardProps> = ({
   interactive = false,
   onClick
 }) => {
-  const baseClasses = 'bg-white rounded-lg border transition-all duration-250 ease-out';
+  const baseClasses = 'bg-white rounded-lg border';
   
   const variantClasses = {
     default: 'card-default',
@@ -26,7 +26,7 @@ export const Card: React.FC<CardProps> = ({
     elevated: 'card-elevated'
   };
 
-  const interactiveClasses = interactive || onClick ? 'cursor-pointer hover-lift focus-ring' : '';
+  const interactiveClasses = interactive || onClick ? 'cursor-pointer focus-ring' : '';
   
   const cardClasses = `${baseClasses} ${variantClasses[variant]} ${interactiveClasses} ${className}`;
 
@@ -59,7 +59,7 @@ export const Card: React.FC<CardProps> = ({
           {title}
         </h3>
       )}
-      <div className="animate-fade-in">
+      <div>
         {children}
       </div>
     </CardComponent>

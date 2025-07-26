@@ -30,16 +30,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <aside 
-      className={`w-full content-spacing animate-fade-in ${className}`}
+      className={`w-full content-spacing ${className}`}
       role="complementary"
       aria-label="Barra lateral con información adicional"
     >
       {/* QuickLinks Module */}
       <Card 
         title="Enlaces Rápidos"
-        className="group hover:border-primary-200 dark:hover:border-primary-700 transition-colors duration-200"
+        className="group hover:border-primary-200 dark:hover:border-primary-700"
       >
-        <div className="group-hover:scale-[1.01] transition-transform duration-200">
+        <div>
           <QuickLinks links={quickLinks} />
         </div>
       </Card>
@@ -47,9 +47,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* SpacesList Module */}
       <Card 
         title="Espacios de Colaboración"
-        className="group hover:border-success-200 dark:hover:border-success-700 transition-colors duration-200"
+        className="group hover:border-success-200 dark:hover:border-success-700"
       >
-        <div className="group-hover:scale-[1.01] transition-transform duration-200">
+        <div>
           <SpacesList spaces={spaces} />
         </div>
       </Card>
@@ -57,9 +57,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* LaunchPad Module */}
       <Card 
         title="Aplicaciones"
-        className="group hover:border-warning-200 dark:hover:border-warning-700 transition-colors duration-200"
+        className="group hover:border-warning-200 dark:hover:border-warning-700"
       >
-        <div className="group-hover:scale-[1.01] transition-transform duration-200">
+        <div>
           <LaunchPad applications={applications} />
         </div>
       </Card>
