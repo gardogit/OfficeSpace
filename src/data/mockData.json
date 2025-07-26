@@ -231,57 +231,139 @@
       "id": "link-001",
       "title": "Portal de Empleados",
       "url": "https://portal.empresa.com",
-      "category": "Recursos Humanos",
-      "icon": "👥"
+      "category": "RECURSOS HUMANOS"
     },
     {
       "id": "link-002",
-      "title": "Sistema de Tickets",
-      "url": "https://tickets.empresa.com",
-      "category": "Soporte IT",
-      "icon": "🎫"
+      "title": "Solicitar Vacaciones",
+      "url": "https://vacaciones.empresa.com",
+      "category": "RECURSOS HUMANOS"
     },
     {
       "id": "link-003",
-      "title": "Documentación Técnica",
-      "url": "https://docs.empresa.com",
-      "category": "Desarrollo",
-      "icon": "📚"
+      "title": "Nómina y Beneficios",
+      "url": "https://nomina.empresa.com",
+      "category": "RECURSOS HUMANOS"
     },
     {
       "id": "link-004",
-      "title": "Calendario Corporativo",
-      "url": "https://calendar.empresa.com",
-      "category": "Organización",
-      "icon": "📅"
+      "title": "Evaluaciones de Desempeño",
+      "url": "https://evaluaciones.empresa.com",
+      "category": "RECURSOS HUMANOS"
     },
     {
       "id": "link-005",
-      "title": "Repositorio de Código",
-      "url": "https://git.empresa.com",
-      "category": "Desarrollo",
-      "icon": "💻"
+      "title": "Directorio de Empleados",
+      "url": "https://directorio.empresa.com",
+      "category": "RECURSOS HUMANOS"
     },
     {
       "id": "link-006",
-      "title": "Sistema de Gastos",
-      "url": "https://expenses.empresa.com",
-      "category": "Finanzas",
-      "icon": "💰"
+      "title": "Sistema de Tickets",
+      "url": "https://tickets.empresa.com",
+      "category": "SOPORTE IT"
     },
     {
       "id": "link-007",
-      "title": "Plataforma de Aprendizaje",
-      "url": "https://learning.empresa.com",
-      "category": "Capacitación",
-      "icon": "🎓"
+      "title": "Solicitar Equipo",
+      "url": "https://equipo.empresa.com",
+      "category": "SOPORTE IT"
     },
     {
       "id": "link-008",
+      "title": "VPN Corporativa",
+      "url": "https://vpn.empresa.com",
+      "category": "SOPORTE IT"
+    },
+    {
+      "id": "link-009",
+      "title": "Centro de Descargas",
+      "url": "https://descargas.empresa.com",
+      "category": "SOPORTE IT"
+    },
+    {
+      "id": "link-010",
+      "title": "Documentación Técnica",
+      "url": "https://docs.empresa.com",
+      "category": "DESARROLLO"
+    },
+    {
+      "id": "link-011",
+      "title": "Repositorio de Código",
+      "url": "https://git.empresa.com",
+      "category": "DESARROLLO"
+    },
+    {
+      "id": "link-012",
+      "title": "CI/CD Pipeline",
+      "url": "https://ci.empresa.com",
+      "category": "DESARROLLO"
+    },
+    {
+      "id": "link-013",
+      "title": "API Documentation",
+      "url": "https://api-docs.empresa.com",
+      "category": "DESARROLLO"
+    },
+    {
+      "id": "link-014",
+      "title": "Testing Environment",
+      "url": "https://testing.empresa.com",
+      "category": "DESARROLLO"
+    },
+    {
+      "id": "link-015",
+      "title": "Calendario Corporativo",
+      "url": "https://calendar.empresa.com",
+      "category": "HERRAMIENTAS"
+    },
+    {
+      "id": "link-016",
+      "title": "Sistema de Gastos",
+      "url": "https://expenses.empresa.com",
+      "category": "HERRAMIENTAS"
+    },
+    {
+      "id": "link-017",
+      "title": "Reserva de Salas",
+      "url": "https://salas.empresa.com",
+      "category": "HERRAMIENTAS"
+    },
+    {
+      "id": "link-018",
       "title": "Dashboard de Métricas",
       "url": "https://metrics.empresa.com",
-      "category": "Analytics",
-      "icon": "📊"
+      "category": "HERRAMIENTAS"
+    },
+    {
+      "id": "link-019",
+      "title": "Gestión de Proyectos",
+      "url": "https://proyectos.empresa.com",
+      "category": "HERRAMIENTAS"
+    },
+    {
+      "id": "link-020",
+      "title": "Plataforma de Aprendizaje",
+      "url": "https://learning.empresa.com",
+      "category": "CAPACITACIÓN"
+    },
+    {
+      "id": "link-021",
+      "title": "Certificaciones",
+      "url": "https://certificaciones.empresa.com",
+      "category": "CAPACITACIÓN"
+    },
+    {
+      "id": "link-022",
+      "title": "Biblioteca Digital",
+      "url": "https://biblioteca.empresa.com",
+      "category": "CAPACITACIÓN"
+    },
+    {
+      "id": "link-023",
+      "title": "Webinars Internos",
+      "url": "https://webinars.empresa.com",
+      "category": "CAPACITACIÓN"
     }
   ],
   "spaces": [
