@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
 import { Event } from '../../types';
 import { Card } from '../ui/Card';
 import { formatEventDate, formatEventDuration, sortEventsByDate, isEventUpcoming } from '../../utils/dateUtils';
@@ -15,7 +15,7 @@ interface EventItemProps {
   onToggleExpand: () => void;
 }
 
-const EventItem: React.FC<EventItemProps> = ({ event, isExpanded, onToggleExpand }) => {
+const EventItem: React.FC<EventItemProps> = memo(({ event, isExpanded, onToggleExpand }) => {
   return (
     <div className="border-b border-gray-100 dark:border-gray-700 last:border-b-0 pb-4 last:pb-0 mb-4 last:mb-0">
       <div 
@@ -96,9 +96,9 @@ const EventItem: React.FC<EventItemProps> = ({ event, isExpanded, onToggleExpand
       )}
     </div>
   );
-};
+});
 
-export const UpcomingEventsList: React.FC<UpcomingEventsListProps> = ({ 
+const UpcomingEventsListComponent: React.FC<UpcomingEventsListProps> = ({ 
   events, 
   className = '',
   showTitle = true
@@ -151,5 +151,16 @@ export const UpcomingEventsList: React.FC<UpcomingEventsListProps> = ({
     </Card>
   );
 };
+
+// Memoize component to prevent unnecessary re-renders
+export const UpcomingEventsList = memo(UpcomingEventsListComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.events === nextProps.events &&
+    prevProps.className === nextProps.className &&
+    prevProps.showTitle === nextProps.showTitle
+  );
+});
+
+UpcomingEventsList.displayName = 'UpcomingEventsList';
 
 export default UpcomingEventsList;

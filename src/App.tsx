@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import {
   MainLayout,
   Header,
   NavigationBar,
-  Sidebar,
+  SidebarTabs,
 } from "./components/layout";
-import {
-  NewsCarousel,
-  UpcomingEventsList,
-  NewHiresGrid,
-} from "./components/dashboard";
 import {
   CriticalErrorBoundary,
   DashboardSkeleton,
   EnhancedErrorBoundary,
 } from "./components/common";
+
+// Lazy load dashboard components for better performance
+const NewsCarousel = lazy(() => 
+  import("./components/dashboard").then(module => ({ default: module.NewsCarousel }))
+);
+const UpcomingEventsList = lazy(() => 
+  import("./components/dashboard").then(module => ({ default: module.UpcomingEventsList }))
+);
+const NewHiresGrid = lazy(() => 
+  import("./components/dashboard").then(module => ({ default: module.NewHiresGrid }))
+);
 import { useNavigation, useMockDataLoader } from "./hooks";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import mockData from "./data/mockData.json";
@@ -183,7 +189,9 @@ function AppContent() {
                 ErrorMetrics.getInstance().recordError("NewsCarousel", error)
               }
             >
-              <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>}>
+                <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+              </Suspense>
             </EnhancedErrorBoundary>
           </section>
         );
@@ -210,7 +218,9 @@ function AppContent() {
                 )
               }
             >
-              <UpcomingEventsList events={filteredEvents} showTitle={false} />
+              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+                <UpcomingEventsList events={filteredEvents} showTitle={false} />
+              </Suspense>
             </EnhancedErrorBoundary>
           </section>
         );
@@ -234,7 +244,9 @@ function AppContent() {
                 ErrorMetrics.getInstance().recordError("NewHiresGrid", error)
               }
             >
-              <NewHiresGrid newHires={filteredNewHires} />
+              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+                <NewHiresGrid newHires={filteredNewHires} />
+              </Suspense>
             </EnhancedErrorBoundary>
           </section>
         );
@@ -351,7 +363,9 @@ function AppContent() {
                     )
                   }
                 >
-                  <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+                  <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>}>
+                    <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+                  </Suspense>
                 </EnhancedErrorBoundary>
               </section>
             )}
@@ -370,10 +384,12 @@ function AppContent() {
                       )
                     }
                   >
-                    <UpcomingEventsList
-                      events={filteredEvents}
-                      showTitle={true}
-                    />
+                    <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+                      <UpcomingEventsList
+                        events={filteredEvents}
+                        showTitle={true}
+                      />
+                    </Suspense>
                   </EnhancedErrorBoundary>
                 </section>
               )}
@@ -390,7 +406,9 @@ function AppContent() {
                       )
                     }
                   >
-                    <NewHiresGrid newHires={filteredNewHires} maxColumns={2} />
+                    <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+                      <NewHiresGrid newHires={filteredNewHires} maxColumns={2} />
+                    </Suspense>
                   </EnhancedErrorBoundary>
                 </section>
               )}
@@ -424,12 +442,12 @@ function AppContent() {
         }
         sidebar={
           <EnhancedErrorBoundary
-            componentName="Sidebar"
+            componentName="SidebarTabs"
             onError={(error) =>
-              ErrorMetrics.getInstance().recordError("Sidebar", error)
+              ErrorMetrics.getInstance().recordError("SidebarTabs", error)
             }
           >
-            <Sidebar
+            <SidebarTabs
               quickLinks={data.quickLinks}
               spaces={data.spaces}
               applications={data.applications}

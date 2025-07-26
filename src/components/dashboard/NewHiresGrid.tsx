@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import { Employee } from '../../types';
 import { Card } from '../ui';
 import { EmployeeCard } from './EmployeeCard';
@@ -11,7 +11,7 @@ export interface NewHiresGridProps {
   maxColumns?: 2 | 3 | 4;
 }
 
-export const NewHiresGrid: React.FC<NewHiresGridProps> = ({
+const NewHiresGridComponent: React.FC<NewHiresGridProps> = ({
   newHires,
   title = "Nuevos Empleados",
   className = '',
@@ -30,10 +30,12 @@ export const NewHiresGrid: React.FC<NewHiresGridProps> = ({
     setSelectedEmployee(null);
   };
 
-  // Sort employees by start date (most recent first)
-  const sortedNewHires = [...newHires].sort((a, b) => {
-    return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
-  });
+  // Sort employees by start date (most recent first) - memoized for performance
+  const sortedNewHires = useMemo(() => {
+    return [...newHires].sort((a, b) => {
+      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    });
+  }, [newHires]);
 
   if (newHires.length === 0) {
     return (
@@ -84,5 +86,17 @@ export const NewHiresGrid: React.FC<NewHiresGridProps> = ({
     </>
   );
 };
+
+// Memoize component to prevent unnecessary re-renders
+export const NewHiresGrid = memo(NewHiresGridComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.newHires === nextProps.newHires &&
+    prevProps.title === nextProps.title &&
+    prevProps.className === nextProps.className &&
+    prevProps.maxColumns === nextProps.maxColumns
+  );
+});
+
+NewHiresGrid.displayName = 'NewHiresGrid';
 
 export default NewHiresGrid;

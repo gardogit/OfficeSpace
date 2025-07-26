@@ -6,3 +6,10 @@ export {
   useComponentErrorHandler,
   useNetworkErrorHandler 
 } from './useErrorHandler';
+export { 
+  usePerformance, 
+  useComponentPerformance, 
+  withPerformanceMonitoring,
+  getPerformanceMetrics,
+  clearPerformanceMetrics 
+} from './usePerformance';

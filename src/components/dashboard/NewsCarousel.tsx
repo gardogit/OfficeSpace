@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { NewsArticle } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { useErrorHandler } from '../../hooks/useErrorHandler';
-import { useAnnouncements, useKeyboardNavigation } from '../../hooks/useAccessibility';
+import { useAnnouncements } from '../../hooks/useAccessibility';
 import { KEYS } from '../../utils/accessibility';
 
 import { ErrorFallback } from '../common/ErrorFallback';
@@ -15,7 +15,7 @@ export interface NewsCarouselProps {
   className?: string;
 }
 
-export const NewsCarousel: React.FC<NewsCarouselProps> = ({
+const NewsCarouselComponent: React.FC<NewsCarouselProps> = ({
   news,
   autoRotate = true,
   autoRotateInterval = 5000,
@@ -353,5 +353,18 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
     </div>
   );
 };
+
+// Memoize component to prevent unnecessary re-renders
+export const NewsCarousel = memo(NewsCarouselComponent, (prevProps, nextProps) => {
+  // Custom comparison function for better performance
+  return (
+    prevProps.news === nextProps.news &&
+    prevProps.autoRotate === nextProps.autoRotate &&
+    prevProps.autoRotateInterval === nextProps.autoRotateInterval &&
+    prevProps.className === nextProps.className
+  );
+});
+
+NewsCarousel.displayName = 'NewsCarousel';
 
 export default NewsCarousel;
