@@ -6,3 +6,5 @@ export { SearchBar, type SearchBarProps } from './SearchBar';
 export { UserControls, type UserControlsProps } from './UserControls';
 export { NavigationBar, type NavigationSection } from './NavigationBar';
 export { Sidebar } from './Sidebar';
+export { SidebarTabs } from './SidebarTabs';
+export { SidebarTabsDemo } from './SidebarTabsDemo';

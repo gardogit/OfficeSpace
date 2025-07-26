@@ -73,10 +73,10 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({
   };
 
   return (
-    <div className={`px-4 sm:px-6 lg:px-8 ${className}`} id="main-navigation">
+    <div className={`${className}`} id="main-navigation">
       <nav 
         ref={containerRef}
-        className="flex space-x-8 py-4 overflow-x-auto scrollbar-thin"
+        className="flex space-x-8 py-4 px-4 sm:px-6 lg:px-8 ml-80 overflow-x-auto scrollbar-thin"
         role="tablist"
         aria-label="Navegación principal del dashboard"
       >
