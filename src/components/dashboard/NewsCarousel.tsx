@@ -215,7 +215,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
       <Card className="h-full">
       <div 
         ref={carouselRef}
-        className="space-y-4"
+        className="space-y-4 -mt-4"
         tabIndex={0}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -251,7 +251,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
         )}
 
         {/* Article content */}
-        <div className="content-spacing">
+        <div className="space-y-2">
           <div className="flex items-center justify-between caption">
             <span className="flex items-center space-x-2">
               <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,14 +274,14 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
             {currentArticle.title}
           </h2>
           
-          <p className="body-base text-gray-600">
+          <p className="body-base text-gray-600 dark:text-gray-400">
             {currentArticle.summary}
           </p>
         </div>
 
         {/* Navigation controls */}
         {news.length > 1 && (
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
             {/* Previous/Next buttons */}
             <div className="flex space-x-1" role="group" aria-label="Controles de navegación del carrusel">
               <Button
@@ -316,30 +316,7 @@ export const NewsCarousel: React.FC<NewsCarouselProps> = ({
                 Siguiente
               </Button>
 
-              {/* Pause/Play button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setIsPaused(!isPaused);
-                  announce(isPaused ? 'Carrusel reanudado' : 'Carrusel pausado', 'polite');
-                }}
-                className="p-2 hover-lift"
-                aria-label={isPaused ? 'Reanudar rotación automática' : 'Pausar rotación automática'}
-                icon={
-                  isPaused ? (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6l5-3-5-3z" />
-                    </svg>
-                  )
-                }
-              >
-                {isPaused ? 'Reanudar' : 'Pausar'}
-              </Button>
+
             </div>
 
             {/* Position indicators */}

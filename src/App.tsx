@@ -337,16 +337,11 @@ function AppContent() {
             id="tabpanel-inicio"
             role="tabpanel"
             aria-labelledby="tab-inicio"
+            className="content-spacing"
           >
             {/* News Carousel Section */}
             {filteredNews.length > 0 && (
               <section aria-labelledby="news-heading">
-                <h2
-                  id="news-heading"
-                  className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6"
-                >
-                  Noticias Destacadas
-                </h2>
                 <EnhancedErrorBoundary
                   componentName="Noticias"
                   onError={(error) =>
@@ -366,12 +361,6 @@ function AppContent() {
               {/* Upcoming Events Section */}
               {filteredEvents.length > 0 && (
                 <section aria-labelledby="events-heading">
-                  <h2
-                    id="events-heading"
-                    className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"
-                  >
-                    Próximos Eventos
-                  </h2>
                   <EnhancedErrorBoundary
                     componentName="Eventos"
                     onError={(error) =>
@@ -383,7 +372,7 @@ function AppContent() {
                   >
                     <UpcomingEventsList
                       events={filteredEvents}
-                      showTitle={false}
+                      showTitle={true}
                     />
                   </EnhancedErrorBoundary>
                 </section>
@@ -392,12 +381,6 @@ function AppContent() {
               {/* New Hires Section */}
               {filteredNewHires.length > 0 && (
                 <section aria-labelledby="newhires-heading">
-                  <h2
-                    id="newhires-heading"
-                    className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4"
-                  >
-                    Nuevos Miembros del Equipo
-                  </h2>
                   <EnhancedErrorBoundary
                     componentName="Equipo"
                     onError={(error) =>

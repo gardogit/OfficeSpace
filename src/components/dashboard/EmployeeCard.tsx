@@ -32,7 +32,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
       interactive={!!onViewDetails}
       onClick={onViewDetails ? handleViewDetails : undefined}
     >
-      <div className="flex flex-col items-center content-spacing">
+      <div className="flex flex-col items-center">
         <div className="relative">
           <Avatar
             src={employee.avatar}
@@ -44,7 +44,7 @@ export const EmployeeCard: React.FC<EmployeeCardProps> = ({
           />
         </div>
 
-        <div className="space-y-2 text-center">
+        <div className="space-y-1 text-center mt-2">
           <h3 className="heading-4 text-balance group-hover:text-primary-700 dark:group-hover:text-primary-400">
             {employee.name}
           </h3>
