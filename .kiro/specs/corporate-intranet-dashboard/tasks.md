@@ -146,7 +146,10 @@
   - Escribir tests de accesibilidad
   - _Requerimientos: 11.3_
 
-- [ ] 18. Optimizar performance y crear build de producción
+- [x] 18. Optimizar performance y crear build de producción
+
+
+
 
   - Implementar lazy loading para componentes no críticos
   - Configurar memoización con React.memo
