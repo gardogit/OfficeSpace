@@ -1,4 +1,3 @@
-import React from 'react';
 import { SidebarTabsDemo } from './components/layout/SidebarTabsDemo';
 import { ThemeProvider } from './contexts/ThemeContext';
 

@@ -1,7 +1,5 @@
 import React, { useState, memo } from 'react';
 import { NewsArticle } from '../../types';
-import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
 
 export interface NewsGridProps {
   news: NewsArticle[];

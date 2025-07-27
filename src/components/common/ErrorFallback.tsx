@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ErrorFallbackProps {
   error?: Error;
   resetError?: () => void;
@@ -13,8 +11,8 @@ interface ErrorFallbackProps {
 export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   error,
   resetError,
-  componentName = 'Componente',
-  showDetails = false
+  componentName = "Componente",
+  showDetails = false,
 }) => {
   return (
     <div className="min-h-[200px] flex items-center justify-center bg-red-50 border border-red-200 rounded-lg p-6">
@@ -35,13 +33,14 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
             />
           </svg>
         </div>
-        
+
         <h3 className="text-lg font-medium text-red-900 mb-2">
           Error en {componentName}
         </h3>
-        
+
         <p className="text-sm text-red-700 mb-4">
-          Ha ocurrido un error inesperado. Esta sección no está funcionando correctamente.
+          Ha ocurrido un error inesperado. Esta sección no está funcionando
+          correctamente.
         </p>
 
         {showDetails && error && (
@@ -72,7 +71,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
               Reintentar
             </button>
           )}
-          
+
           <button
             onClick={() => window.location.reload()}
             className="inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
@@ -89,9 +88,8 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({
  * Compact error fallback for smaller components
  */
 export const CompactErrorFallback: React.FC<ErrorFallbackProps> = ({
-  error,
   resetError,
-  componentName = 'Sección'
+  componentName = "Sección",
 }) => {
   return (
     <div className="min-h-[100px] flex items-center justify-center bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -112,11 +110,11 @@ export const CompactErrorFallback: React.FC<ErrorFallbackProps> = ({
             />
           </svg>
         </div>
-        
+
         <h4 className="text-sm font-medium text-yellow-900 mb-1">
           Error en {componentName}
         </h4>
-        
+
         <p className="text-xs text-yellow-700 mb-3">
           Esta sección no está disponible temporalmente
         </p>
@@ -138,9 +136,8 @@ export const CompactErrorFallback: React.FC<ErrorFallbackProps> = ({
  * Network error specific fallback
  */
 export const NetworkErrorFallback: React.FC<ErrorFallbackProps> = ({
-  error,
   resetError,
-  componentName = 'Datos'
+  componentName = "Datos",
 }) => {
   return (
     <div className="min-h-[150px] flex items-center justify-center bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -161,13 +158,14 @@ export const NetworkErrorFallback: React.FC<ErrorFallbackProps> = ({
             />
           </svg>
         </div>
-        
+
         <h4 className="text-sm font-medium text-blue-900 mb-1">
           Problema de conexión
         </h4>
-        
+
         <p className="text-xs text-blue-700 mb-3">
-          No se pudieron cargar los {componentName.toLowerCase()}. Verifica tu conexión a internet.
+          No se pudieron cargar los {componentName.toLowerCase()}. Verifica tu
+          conexión a internet.
         </p>
 
         {resetError && (
@@ -195,10 +193,10 @@ export const EmptyStateFallback: React.FC<{
     onClick: () => void;
   };
 }> = ({
-  title = 'No hay datos disponibles',
-  description = 'No se encontró información para mostrar en esta sección.',
+  title = "No hay datos disponibles",
+  description = "No se encontró información para mostrar en esta sección.",
   icon,
-  action
+  action,
 }) => {
   const defaultIcon = (
     <svg
@@ -220,17 +218,11 @@ export const EmptyStateFallback: React.FC<{
   return (
     <div className="min-h-[200px] flex items-center justify-center p-6">
       <div className="text-center">
-        <div className="flex justify-center mb-4">
-          {icon || defaultIcon}
-        </div>
-        
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
-          {title}
-        </h3>
-        
-        <p className="text-sm text-gray-500 mb-4 max-w-sm">
-          {description}
-        </p>
+        <div className="flex justify-center mb-4">{icon || defaultIcon}</div>
+
+        <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
+
+        <p className="text-sm text-gray-500 mb-4 max-w-sm">{description}</p>
 
         {action && (
           <button

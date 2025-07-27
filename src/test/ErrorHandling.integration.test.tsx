@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import { useLoadingState } from '../hooks/useLoadingState';
@@ -214,7 +213,6 @@ describe('Error Handling Integration', () => {
     });
 
     // Mock a component to throw an error
-    const OriginalNewsCarousel = require('../components/dashboard/NewsCarousel').NewsCarousel;
     const MockNewsCarousel = () => {
       throw new Error('Component error');
     };

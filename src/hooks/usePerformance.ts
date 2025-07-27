@@ -122,18 +122,18 @@ export const clearPerformanceMetrics = (): void => {
 };
 
 // Performance monitoring HOC
-export const withPerformanceMonitoring = <P extends object>(
+export function withPerformanceMonitoring<P extends object>(
   Component: React.ComponentType<P>,
-  componentName?: string
-): React.ComponentType<P> => {
+  options: { componentName?: string; enableLogging?: boolean } = {}
+): React.ComponentType<P> {
   const WrappedComponent: React.FC<P> = (props: P) => {
     const { getStats } = useComponentPerformance(
-      componentName || Component.displayName || Component.name || 'Unknown'
+      options.componentName || Component.displayName || Component.name || 'Unknown'
     );
 
     useEffect(() => {
       // Log stats periodically in development
-      if (enableLogging) {
+      if (options.enableLogging) {
         const interval = setInterval(() => {
           const stats = getStats();
           if (stats.renderCount > 0) {
@@ -143,13 +143,13 @@ export const withPerformanceMonitoring = <P extends object>(
 
         return () => clearInterval(interval);
       }
-    }, [getStats, enableLogging]);
+    }, [getStats, options.enableLogging]);
 
     return React.createElement(Component, props);
   };
 
   WrappedComponent.displayName = `withPerformanceMonitoring(${
-    componentName || Component.displayName || Component.name || 'Component'
+    options.componentName || Component.displayName || Component.name || 'Component'
   })`;
 
   return WrappedComponent;

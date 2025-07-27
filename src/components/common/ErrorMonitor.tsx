@@ -32,9 +32,9 @@ export const ErrorMonitor: React.FC<ErrorMonitorProps> = ({
     }
   }, [isVisible]);
 
-  if (!isVisible || import.meta.env.MODE === 'production') {
-    return null;
-  }
+  // if (!isVisible || import.meta.env.MODE === 'production') {
+  //   return null;
+  // }
 
   const getHealthStatus = () => {
     if (!errorStats) return 'unknown';

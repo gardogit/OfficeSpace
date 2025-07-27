@@ -33,7 +33,7 @@ export const UnifiedNavbar: React.FC<UnifiedNavbarProps> = ({
 }) => {
   const { skipToContent, skipToNavigation } = useSkipLinks();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [, setIsMobileMenuOpen] = useState(false);
   const [internalActiveSection, setInternalActiveSection] = useState<string>(
     activeSection || sections[0]?.id || ''
   );
@@ -53,10 +53,6 @@ export const UnifiedNavbar: React.FC<UnifiedNavbarProps> = ({
     handleSectionActivation(sectionId);
     // Close mobile menu when section is selected
     setIsMobileMenuOpen(false);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (

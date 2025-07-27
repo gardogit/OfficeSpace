@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ErrorBoundary, DashboardErrorBoundary } from '../components/common/ErrorBoundary';
 import { ErrorFallback, NetworkErrorFallback } from '../components/common/ErrorFallback';
@@ -57,7 +56,7 @@ const TestComponent: React.FC<{
 
   const currentHandler = errorType === 'network' ? networkErrorHandler : errorHandler;
 
-  if (useErrorHandling && currentHandler.hasError) {
+  if (useErrorHandling && currentHandler.hasError && currentHandler.error) {
     return (
       <ErrorFallback
         error={currentHandler.error}
@@ -293,7 +292,7 @@ describe('Complete Error Handling Integration', () => {
       // Trigger first error
       const errorButton = screen.getByRole('button', { name: /trigger generic error/i });
       fireEvent.click(errorButton);
-      expect(screen.getByText((content, element) => {
+      expect(screen.getByText((_content, element) => {
         return element?.textContent === 'Error en TestComponent';
       })).toBeInTheDocument();
 
@@ -304,7 +303,7 @@ describe('Complete Error Handling Integration', () => {
 
       // Trigger second error
       fireEvent.click(screen.getByRole('button', { name: /trigger generic error/i }));
-      expect(screen.getByText((content, element) => {
+      expect(screen.getByText((_content, element) => {
         return element?.textContent === 'Error en TestComponent';
       })).toBeInTheDocument();
 

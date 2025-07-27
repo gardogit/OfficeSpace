@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { EmployeeCard } from './EmployeeCard';
@@ -36,7 +35,7 @@ describe('EmployeeCard', () => {
     render(<EmployeeCard employee={mockEmployee} />);
     
     // The date should be formatted in Spanish locale (text is split across elements)
-    expect(screen.getByText((content, element) => {
+    expect(screen.getByText((_content, element) => {
       return element?.textContent === 'Inicio: 7 de enero de 2024';
     })).toBeInTheDocument();
   });
@@ -138,7 +137,7 @@ describe('EmployeeCard', () => {
     
     render(<EmployeeCard employee={employeeWithDifferentDate} />);
     
-    expect(screen.getByText((content, element) => {
+    expect(screen.getByText((_content, element) => {
       return element?.textContent === 'Inicio: 24 de diciembre de 2023';
     })).toBeInTheDocument();
   });

@@ -54,7 +54,7 @@ export const useFocusTrap = (isActive: boolean) => {
  * Hook for keyboard navigation in lists and grids
  */
 export const useKeyboardNavigation = (
-  items: any[],
+  _items: any[],
   options: {
     orientation?: 'horizontal' | 'vertical' | 'grid';
     columnsCount?: number;
@@ -134,7 +134,7 @@ export const useAnnouncements = () => {
 /**
  * Hook for managing roving tabindex
  */
-export const useRovingTabIndex = (items: any[], activeIndex: number = 0) => {
+export const useRovingTabIndex = (_items: any[], activeIndex: number = 0) => {
   const getTabIndex = useCallback((index: number) => {
     return index === activeIndex ? 0 : -1;
   }, [activeIndex]);

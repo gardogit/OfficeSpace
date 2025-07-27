@@ -79,7 +79,7 @@ export const createErrorRecovery = (componentName: string) => {
   const ERROR_WINDOW = 60000; // 1 minute
 
   return {
-    shouldRecover: (error: Error): boolean => {
+    shouldRecover: (_error: Error): boolean => {
       const now = Date.now();
       
       // Reset counter if enough time has passed
