@@ -21,3 +21,5 @@ export type { LaunchPadProps } from './LaunchPad';
 export { default as LaunchPadDemo } from './LaunchPadDemo';
 export { default as SpacesList } from './SpacesList';
 export type { SpacesListProps } from './SpacesList';
+export { default as WelcomeHero } from './WelcomeHero';
+export type { WelcomeHeroProps } from './WelcomeHero';

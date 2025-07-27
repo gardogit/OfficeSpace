@@ -1,9 +1,5 @@
 import { useState, lazy, Suspense } from "react";
-import {
-  MainLayout,
-  UnifiedNavbar,
-  SidebarTabs,
-} from "./components/layout";
+import { MainLayout, UnifiedNavbar, SidebarTabs } from "./components/layout";
 import {
   CriticalErrorBoundary,
   DashboardSkeleton,
@@ -11,17 +7,30 @@ import {
 } from "./components/common";
 
 // Lazy load dashboard components for better performance
-const NewsCarousel = lazy(() => 
-  import("./components/dashboard").then(module => ({ default: module.NewsCarousel }))
+const NewsCarousel = lazy(() =>
+  import("./components/dashboard").then((module) => ({
+    default: module.NewsCarousel,
+  }))
 );
-const NewsGrid = lazy(() => 
-  import("./components/dashboard").then(module => ({ default: module.NewsGrid }))
+const NewsGrid = lazy(() =>
+  import("./components/dashboard").then((module) => ({
+    default: module.NewsGrid,
+  }))
 );
-const UpcomingEventsList = lazy(() => 
-  import("./components/dashboard").then(module => ({ default: module.UpcomingEventsList }))
+const UpcomingEventsList = lazy(() =>
+  import("./components/dashboard").then((module) => ({
+    default: module.UpcomingEventsList,
+  }))
 );
-const NewHiresGrid = lazy(() => 
-  import("./components/dashboard").then(module => ({ default: module.NewHiresGrid }))
+const NewHiresGrid = lazy(() =>
+  import("./components/dashboard").then((module) => ({
+    default: module.NewHiresGrid,
+  }))
+);
+const WelcomeHero = lazy(() =>
+  import("./components/dashboard").then((module) => ({
+    default: module.WelcomeHero,
+  }))
 );
 import { useNavigation, useMockDataLoader } from "./hooks";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -185,7 +194,11 @@ function AppContent() {
                 ErrorMetrics.getInstance().recordError("NewsGrid", error)
               }
             >
-              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>}>
+              <Suspense
+                fallback={
+                  <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>
+                }
+              >
                 <NewsGrid news={filteredNews} />
               </Suspense>
             </EnhancedErrorBoundary>
@@ -214,7 +227,11 @@ function AppContent() {
                 )
               }
             >
-              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+              <Suspense
+                fallback={
+                  <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>
+                }
+              >
                 <UpcomingEventsList events={filteredEvents} showTitle={false} />
               </Suspense>
             </EnhancedErrorBoundary>
@@ -240,7 +257,11 @@ function AppContent() {
                 ErrorMetrics.getInstance().recordError("NewHiresGrid", error)
               }
             >
-              <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+              <Suspense
+                fallback={
+                  <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>
+                }
+              >
                 <NewHiresGrid newHires={filteredNewHires} />
               </Suspense>
             </EnhancedErrorBoundary>
@@ -347,6 +368,27 @@ function AppContent() {
             aria-labelledby="tab-inicio"
             className="content-spacing"
           >
+            {/* Welcome Hero Section */}
+            <section aria-labelledby="welcome-heading">
+              <EnhancedErrorBoundary
+                componentName="WelcomeHero"
+                onError={(error) =>
+                  ErrorMetrics.getInstance().recordError("WelcomeHero", error)
+                }
+              >
+                <Suspense
+                  fallback={
+                    <div className="animate-pulse bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 h-48 rounded-lg"></div>
+                  }
+                >
+                  <WelcomeHero
+                    user={data.currentUser}
+                    upcomingEvents={filteredEvents}
+                  />
+                </Suspense>
+              </EnhancedErrorBoundary>
+            </section>
+
             {/* News Carousel Section */}
             {filteredNews.length > 0 && (
               <section aria-labelledby="news-heading">
@@ -359,8 +401,15 @@ function AppContent() {
                     )
                   }
                 >
-                  <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>}>
-                    <NewsCarousel news={filteredNews} autoRotate={!searchQuery} />
+                  <Suspense
+                    fallback={
+                      <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-64 rounded-lg"></div>
+                    }
+                  >
+                    <NewsCarousel
+                      news={filteredNews}
+                      autoRotate={!searchQuery}
+                    />
                   </Suspense>
                 </EnhancedErrorBoundary>
               </section>
@@ -380,7 +429,11 @@ function AppContent() {
                       )
                     }
                   >
-                    <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
+                    <Suspense
+                      fallback={
+                        <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>
+                      }
+                    >
                       <UpcomingEventsList
                         events={filteredEvents}
                         showTitle={true}
@@ -402,8 +455,15 @@ function AppContent() {
                       )
                     }
                   >
-                    <Suspense fallback={<div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>}>
-                      <NewHiresGrid newHires={filteredNewHires} maxColumns={2} />
+                    <Suspense
+                      fallback={
+                        <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-48 rounded-lg"></div>
+                      }
+                    >
+                      <NewHiresGrid
+                        newHires={filteredNewHires}
+                        maxColumns={2}
+                      />
                     </Suspense>
                   </EnhancedErrorBoundary>
                 </section>
@@ -510,8 +570,18 @@ function AppContent() {
                   className="ml-4 p-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 focus-ring rounded transition-colors duration-200"
                   aria-label="Limpiar búsqueda"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
