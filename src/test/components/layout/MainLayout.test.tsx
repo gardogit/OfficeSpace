@@ -14,30 +14,28 @@ describe('MainLayout', () => {
     expect(screen.getByText('Main Content')).toBeInTheDocument();
   });
 
-  it('renders header when provided', () => {
-    const headerContent = <div data-testid="header">Header Content</div>;
+  it('renders navbar when provided', () => {
+    const navbarContent = <div data-testid="navbar">Navbar Content</div>;
     
     render(
-      <MainLayout header={headerContent}>
+      <MainLayout navbar={navbarContent}>
         <div>Main Content</div>
       </MainLayout>
     );
 
-    expect(screen.getByTestId('header')).toBeInTheDocument();
-    expect(screen.getByText('Header Content')).toBeInTheDocument();
+    expect(screen.getByTestId('navbar')).toBeInTheDocument();
+    expect(screen.getByText('Navbar Content')).toBeInTheDocument();
   });
 
-  it('renders navigation when provided', () => {
-    const navigationContent = <div data-testid="navigation">Navigation Content</div>;
-    
+  it('renders without navbar when not provided', () => {
     render(
-      <MainLayout navigation={navigationContent}>
-        <div>Main Content</div>
+      <MainLayout>
+        <div data-testid="main-content">Main Content</div>
       </MainLayout>
     );
 
-    expect(screen.getByTestId('navigation')).toBeInTheDocument();
-    expect(screen.getByText('Navigation Content')).toBeInTheDocument();
+    expect(screen.getByTestId('main-content')).toBeInTheDocument();
+    expect(screen.queryByTestId('navbar')).not.toBeInTheDocument();
   });
 
   it('renders sidebar when provided', () => {
@@ -54,22 +52,19 @@ describe('MainLayout', () => {
   });
 
   it('renders all sections together', () => {
-    const headerContent = <div data-testid="header">Header</div>;
-    const navigationContent = <div data-testid="navigation">Navigation</div>;
+    const navbarContent = <div data-testid="navbar">Navbar</div>;
     const sidebarContent = <div data-testid="sidebar">Sidebar</div>;
     
     render(
       <MainLayout 
-        header={headerContent}
-        navigation={navigationContent}
+        navbar={navbarContent}
         sidebar={sidebarContent}
       >
         <div data-testid="main-content">Main Content</div>
       </MainLayout>
     );
 
-    expect(screen.getByTestId('header')).toBeInTheDocument();
-    expect(screen.getByTestId('navigation')).toBeInTheDocument();
+    expect(screen.getByTestId('navbar')).toBeInTheDocument();
     expect(screen.getByTestId('main-content')).toBeInTheDocument();
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
   });
@@ -83,34 +78,27 @@ describe('MainLayout', () => {
 
     // Check main container has correct background
     const mainContainer = container.firstChild as HTMLElement;
-    expect(mainContainer).toHaveClass('min-h-screen', 'bg-gray-50');
+    expect(mainContainer).toHaveClass('h-screen', 'bg-gray-50');
 
-    // Check grid layout classes
-    const gridContainer = container.querySelector('.grid');
-    expect(gridContainer).toHaveClass('grid-cols-1', 'lg:grid-cols-12');
+    // Check flex layout classes
+    const flexContainer = container.querySelector('.flex');
+    expect(flexContainer).toHaveClass('flex-1', 'min-h-0');
   });
 
-  it('applies sticky positioning to header and navigation', () => {
-    const headerContent = <div data-testid="header">Header</div>;
-    const navigationContent = <div data-testid="navigation">Navigation</div>;
+  it('applies correct positioning to navbar', () => {
+    const navbarContent = <div data-testid="navbar">Navbar</div>;
     
     render(
-      <MainLayout 
-        header={headerContent}
-        navigation={navigationContent}
-      >
+      <MainLayout navbar={navbarContent}>
         <div>Content</div>
       </MainLayout>
     );
 
-    const header = screen.getByTestId('header').parentElement;
-    const navigation = screen.getByTestId('navigation').parentElement;
-
-    expect(header).toHaveClass('sticky', 'top-0');
-    expect(navigation).toHaveClass('sticky', 'top-16');
+    const navbarContainer = screen.getByTestId('navbar').parentElement;
+    expect(navbarContainer).toHaveClass('flex-shrink-0', 'z-40');
   });
 
-  it('applies correct column spans for main and sidebar', () => {
+  it('applies correct flex classes for main and sidebar', () => {
     const sidebarContent = <div data-testid="sidebar">Sidebar</div>;
     
     render(
@@ -120,9 +108,9 @@ describe('MainLayout', () => {
     );
 
     const mainElement = screen.getByTestId('main-content').closest('main');
-    const asideElement = screen.getByTestId('sidebar').closest('aside');
+    const sidebarContainer = screen.getByTestId('sidebar').parentElement;
 
-    expect(mainElement).toHaveClass('lg:col-span-8', 'xl:col-span-9');
-    expect(asideElement).toHaveClass('lg:col-span-4', 'xl:col-span-3');
+    expect(mainElement).toHaveClass('flex-1', 'overflow-y-auto');
+    expect(sidebarContainer).toHaveClass('flex-shrink-0', 'lg:w-80');
   });
 });

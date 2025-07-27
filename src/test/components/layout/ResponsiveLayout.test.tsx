@@ -65,29 +65,20 @@ describe('Responsive Layout Tests', () => {
     expect(containerDiv).toHaveClass('px-4', 'sm:px-6', 'lg:px-8');
   });
 
-  it('applies sticky positioning correctly for header and navigation', () => {
-    const headerContent = <div data-testid="header">Header</div>;
-    const navigationContent = <div data-testid="navigation">Navigation</div>;
+  it('applies correct positioning for navbar', () => {
+    const navbarContent = <div data-testid="navbar">Navbar</div>;
     
     render(
-      <MainLayout 
-        header={headerContent}
-        navigation={navigationContent}
-      >
+      <MainLayout navbar={navbarContent}>
         <div>Content</div>
       </MainLayout>
     );
 
-    const header = screen.getByTestId('header').parentElement;
-    const navigation = screen.getByTestId('navigation').parentElement;
+    const navbarContainer = screen.getByTestId('navbar').parentElement;
 
     // Verify z-index stacking
-    expect(header).toHaveClass('z-40');
-    expect(navigation).toHaveClass('z-30');
-
-    // Verify sticky positioning
-    expect(header).toHaveClass('sticky', 'top-0');
-    expect(navigation).toHaveClass('sticky', 'top-16');
+    expect(navbarContainer).toHaveClass('z-40');
+    expect(navbarContainer).toHaveClass('flex-shrink-0');
   });
 
   it('handles sidebar sticky positioning correctly', () => {

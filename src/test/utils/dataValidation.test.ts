@@ -174,7 +174,7 @@ describe("Mock data validation", () => {
 
     it("rejects data without currentUser", () => {
       const invalidData = { ...validMockData };
-      delete invalidData.currentUser;
+      delete (invalidData as any).currentUser;
 
       expect(validateMockDataStructure(invalidData)).toBe(false);
       expect(console.error).toHaveBeenCalledWith(
